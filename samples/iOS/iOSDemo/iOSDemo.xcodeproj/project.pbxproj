@@ -53,8 +53,6 @@
 		1FB576FC1CE209A500ADCF8C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FB576FA1CE209A500ADCF8C /* Main.storyboard */; };
 		1FB576FE1CE209A500ADCF8C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FB576FD1CE209A500ADCF8C /* Assets.xcassets */; };
 		1FB577011CE209A500ADCF8C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FB576FF1CE209A500ADCF8C /* LaunchScreen.storyboard */; };
-		1FB5770C1CE209A500ADCF8C /* iOSDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5770B1CE209A500ADCF8C /* iOSDemoTests.m */; };
-		1FB577171CE209A500ADCF8C /* iOSDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB577161CE209A500ADCF8C /* iOSDemoUITests.m */; };
 		1FB5772E1CE20BFE00ADCF8C /* app_callback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FB577261CE20BFE00ADCF8C /* app_callback.mm */; };
 		1FB577301CE20BFE00ADCF8C /* longlink_packer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1FB577291CE20BFE00ADCF8C /* longlink_packer.cc */; };
 		1FB577311CE20BFE00ADCF8C /* stn_callback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5772C1CE20BFE00ADCF8C /* stn_callback.mm */; };
@@ -68,23 +66,66 @@
 		1FDE37E01DE5DC7900CAC712 /* CGITask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE37DF1DE5DC7900CAC712 /* CGITask.mm */; };
 		4BDBD14B1E07F611006C62F5 /* NetworkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BDBD14A1E07F611006C62F5 /* NetworkStatus.m */; };
 		4BDBD16C1E0912AD006C62F5 /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB577871CE20FA300ADCF8C /* libresolv.9.tbd */; };
-		6032E3EB237AA1100006C81A /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6032E3EA237AA1100006C81A /* mars.framework */; };
+		60B77A82237AAED100E157D1 /* libapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A79237AAEA800E157D1 /* libapp.a */; };
+		60B77A83237AAED100E157D1 /* libbaseevent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A7B237AAEA800E157D1 /* libbaseevent.a */; };
+		60B77A84237AAED100E157D1 /* libcomm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A75237AAEA800E157D1 /* libcomm.a */; };
+		60B77A85237AAED100E157D1 /* libmars-boost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A77237AAEA800E157D1 /* libmars-boost.a */; };
+		60B77A86237AAED100E157D1 /* libsdt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A7F237AAEA800E157D1 /* libsdt.a */; };
+		60B77A87237AAED100E157D1 /* libstn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A81237AAEA800E157D1 /* libstn.a */; };
+		60B77A88237AAED100E157D1 /* libxlog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A7D237AAEA800E157D1 /* libxlog.a */; };
+		60B77A8F237AB46200E157D1 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A8D237AB46100E157D1 /* libcrypto.a */; };
+		60B77A90237AB46200E157D1 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A8E237AB46200E157D1 /* libssl.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1FB577081CE209A500ADCF8C /* PBXContainerItemProxy */ = {
+		60B77A74237AAEA800E157D1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1FB576E61CE209A500ADCF8C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1FB576ED1CE209A500ADCF8C;
-			remoteInfo = iOSDemo;
+			containerPortal = 60B77A67237AAEA700E157D1 /* mars.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EB42B754AC714C30B99142FC;
+			remoteInfo = comm;
 		};
-		1FB577131CE209A500ADCF8C /* PBXContainerItemProxy */ = {
+		60B77A76237AAEA800E157D1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1FB576E61CE209A500ADCF8C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1FB576ED1CE209A500ADCF8C;
-			remoteInfo = iOSDemo;
+			containerPortal = 60B77A67237AAEA700E157D1 /* mars.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 00BC8922047547839B14B981;
+			remoteInfo = "mars-boost";
+		};
+		60B77A78237AAEA800E157D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60B77A67237AAEA700E157D1 /* mars.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F33DB6D022A140A1880C3163;
+			remoteInfo = app;
+		};
+		60B77A7A237AAEA800E157D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60B77A67237AAEA700E157D1 /* mars.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2A1E5C51D9224616B9973FDC;
+			remoteInfo = baseevent;
+		};
+		60B77A7C237AAEA800E157D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60B77A67237AAEA700E157D1 /* mars.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CFC53785FD034EF2B88EBBA7;
+			remoteInfo = xlog;
+		};
+		60B77A7E237AAEA800E157D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60B77A67237AAEA700E157D1 /* mars.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 13EB2C7CF9E0494AA01C8BFB;
+			remoteInfo = sdt;
+		};
+		60B77A80237AAEA800E157D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60B77A67237AAEA700E157D1 /* mars.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8B8A734C5CE548B3B0F049C3;
+			remoteInfo = stn;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -195,10 +236,8 @@
 		1FB576FD1CE209A500ADCF8C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1FB577001CE209A500ADCF8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1FB577021CE209A500ADCF8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1FB577071CE209A500ADCF8C /* iOSDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FB5770B1CE209A500ADCF8C /* iOSDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSDemoTests.m; sourceTree = "<group>"; };
 		1FB5770D1CE209A500ADCF8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1FB577121CE209A500ADCF8C /* iOSDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FB577161CE209A500ADCF8C /* iOSDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSDemoUITests.m; sourceTree = "<group>"; };
 		1FB577181CE209A500ADCF8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1FB577251CE20BFE00ADCF8C /* app_callback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app_callback.h; sourceTree = "<group>"; };
@@ -223,6 +262,9 @@
 		4BDBD1491E07F611006C62F5 /* NetworkStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkStatus.h; path = Bussiness/NetworkStatus.h; sourceTree = "<group>"; };
 		4BDBD14A1E07F611006C62F5 /* NetworkStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkStatus.m; path = Bussiness/NetworkStatus.m; sourceTree = "<group>"; };
 		6032E3EA237AA1100006C81A /* mars.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mars.framework; path = ../../../mars/cmake_build/iOS/Darwin.out/mars.framework; sourceTree = "<group>"; };
+		60B77A67237AAEA700E157D1 /* mars.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = mars.xcodeproj; path = ../../../mars/cmake_build/iOS/mars.xcodeproj; sourceTree = "<group>"; };
+		60B77A8D237AB46100E157D1 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../mars/openssl/openssl_lib_iOS/libcrypto.a; sourceTree = "<group>"; };
+		60B77A8E237AB46200E157D1 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../mars/openssl/openssl_lib_iOS/libssl.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,27 +272,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6032E3EB237AA1100006C81A /* mars.framework in Frameworks */,
+				60B77A8F237AB46200E157D1 /* libcrypto.a in Frameworks */,
+				60B77A90237AB46200E157D1 /* libssl.a in Frameworks */,
+				60B77A82237AAED100E157D1 /* libapp.a in Frameworks */,
+				60B77A83237AAED100E157D1 /* libbaseevent.a in Frameworks */,
+				60B77A84237AAED100E157D1 /* libcomm.a in Frameworks */,
+				60B77A85237AAED100E157D1 /* libmars-boost.a in Frameworks */,
+				60B77A86237AAED100E157D1 /* libsdt.a in Frameworks */,
+				60B77A87237AAED100E157D1 /* libstn.a in Frameworks */,
+				60B77A88237AAED100E157D1 /* libxlog.a in Frameworks */,
 				4BDBD16C1E0912AD006C62F5 /* libresolv.9.tbd in Frameworks */,
 				1FB577861CE20F7D00ADCF8C /* SystemConfiguration.framework in Frameworks */,
 				1FB577821CE20F1400ADCF8C /* libz.tbd in Frameworks */,
 				1FB577801CE20F0E00ADCF8C /* CoreTelephony.framework in Frameworks */,
 				1FB577361CE20C3100ADCF8C /* UIKit.framework in Frameworks */,
 				1FB577341CE20C2800ADCF8C /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1FB577041CE209A500ADCF8C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1FB5770F1CE209A500ADCF8C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,6 +365,8 @@
 		1F7626C11E12BA69000A4AE6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				60B77A8D237AB46100E157D1 /* libcrypto.a */,
+				60B77A8E237AB46200E157D1 /* libssl.a */,
 				1F7626C21E12BA6A000A4AE6 /* protobuf.framework */,
 			);
 			name = Frameworks;
@@ -348,6 +386,7 @@
 		1FB576E51CE209A500ADCF8C = {
 			isa = PBXGroup;
 			children = (
+				60B77A67237AAEA700E157D1 /* mars.xcodeproj */,
 				1FAEF21E1DEE7A39002F3AA6 /* Component */,
 				1FDE37AF1DE5D27000CAC712 /* Proto */,
 				1FB577321CE20C1900ADCF8C /* Framework */,
@@ -365,8 +404,6 @@
 			isa = PBXGroup;
 			children = (
 				1FB576EE1CE209A500ADCF8C /* iOSDemo.app */,
-				1FB577071CE209A500ADCF8C /* iOSDemoTests.xctest */,
-				1FB577121CE209A500ADCF8C /* iOSDemoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -493,6 +530,20 @@
 			path = Proto;
 			sourceTree = "<group>";
 		};
+		60B77A68237AAEA700E157D1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				60B77A75237AAEA800E157D1 /* libcomm.a */,
+				60B77A77237AAEA800E157D1 /* libmars-boost.a */,
+				60B77A79237AAEA800E157D1 /* libapp.a */,
+				60B77A7B237AAEA800E157D1 /* libbaseevent.a */,
+				60B77A7D237AAEA800E157D1 /* libxlog.a */,
+				60B77A7F237AAEA800E157D1 /* libsdt.a */,
+				60B77A81237AAEA800E157D1 /* libstn.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -513,42 +564,6 @@
 			productReference = 1FB576EE1CE209A500ADCF8C /* iOSDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1FB577061CE209A500ADCF8C /* iOSDemoTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1FB5771E1CE209A500ADCF8C /* Build configuration list for PBXNativeTarget "iOSDemoTests" */;
-			buildPhases = (
-				1FB577031CE209A500ADCF8C /* Sources */,
-				1FB577041CE209A500ADCF8C /* Frameworks */,
-				1FB577051CE209A500ADCF8C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1FB577091CE209A500ADCF8C /* PBXTargetDependency */,
-			);
-			name = iOSDemoTests;
-			productName = iOSDemoTests;
-			productReference = 1FB577071CE209A500ADCF8C /* iOSDemoTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		1FB577111CE209A500ADCF8C /* iOSDemoUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1FB577211CE209A500ADCF8C /* Build configuration list for PBXNativeTarget "iOSDemoUITests" */;
-			buildPhases = (
-				1FB5770E1CE209A500ADCF8C /* Sources */,
-				1FB5770F1CE209A500ADCF8C /* Frameworks */,
-				1FB577101CE209A500ADCF8C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1FB577141CE209A500ADCF8C /* PBXTargetDependency */,
-			);
-			name = iOSDemoUITests;
-			productName = iOSDemoUITests;
-			productReference = 1FB577121CE209A500ADCF8C /* iOSDemoUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -562,16 +577,6 @@
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 9CVMN4UZK4;
 						ProvisioningStyle = Automatic;
-					};
-					1FB577061CE209A500ADCF8C = {
-						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 7G2X8H8PPE;
-						TestTargetID = 1FB576ED1CE209A500ADCF8C;
-					};
-					1FB577111CE209A500ADCF8C = {
-						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 7G2X8H8PPE;
-						TestTargetID = 1FB576ED1CE209A500ADCF8C;
 					};
 				};
 			};
@@ -587,14 +592,70 @@
 			mainGroup = 1FB576E51CE209A500ADCF8C;
 			productRefGroup = 1FB576EF1CE209A500ADCF8C /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 60B77A68237AAEA700E157D1 /* Products */;
+					ProjectRef = 60B77A67237AAEA700E157D1 /* mars.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1FB576ED1CE209A500ADCF8C /* iOSDemo */,
-				1FB577061CE209A500ADCF8C /* iOSDemoTests */,
-				1FB577111CE209A500ADCF8C /* iOSDemoUITests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		60B77A75237AAEA800E157D1 /* libcomm.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcomm.a;
+			remoteRef = 60B77A74237AAEA800E157D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		60B77A77237AAEA800E157D1 /* libmars-boost.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libmars-boost.a";
+			remoteRef = 60B77A76237AAEA800E157D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		60B77A79237AAEA800E157D1 /* libapp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libapp.a;
+			remoteRef = 60B77A78237AAEA800E157D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		60B77A7B237AAEA800E157D1 /* libbaseevent.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libbaseevent.a;
+			remoteRef = 60B77A7A237AAEA800E157D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		60B77A7D237AAEA800E157D1 /* libxlog.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libxlog.a;
+			remoteRef = 60B77A7C237AAEA800E157D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		60B77A7F237AAEA800E157D1 /* libsdt.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libsdt.a;
+			remoteRef = 60B77A7E237AAEA800E157D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		60B77A81237AAEA800E157D1 /* libstn.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libstn.a;
+			remoteRef = 60B77A80237AAEA800E157D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1FB576EC1CE209A500ADCF8C /* Resources */ = {
@@ -608,20 +669,6 @@
 				1FB577011CE209A500ADCF8C /* LaunchScreen.storyboard in Resources */,
 				1FB576FE1CE209A500ADCF8C /* Assets.xcassets in Resources */,
 				1FB576FC1CE209A500ADCF8C /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1FB577051CE209A500ADCF8C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1FB577101CE209A500ADCF8C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -681,36 +728,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1FB577031CE209A500ADCF8C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1FB5770C1CE209A500ADCF8C /* iOSDemoTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1FB5770E1CE209A500ADCF8C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1FB577171CE209A500ADCF8C /* iOSDemoUITests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		1FB577091CE209A500ADCF8C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1FB576ED1CE209A500ADCF8C /* iOSDemo */;
-			targetProxy = 1FB577081CE209A500ADCF8C /* PBXContainerItemProxy */;
-		};
-		1FB577141CE209A500ADCF8C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1FB576ED1CE209A500ADCF8C /* iOSDemo */;
-			targetProxy = 1FB577131CE209A500ADCF8C /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		1FB576FA1CE209A500ADCF8C /* Main.storyboard */ = {
@@ -833,11 +851,14 @@
 					"$(PROJECT_DIR)",
 					"$SOURCE_ROOT/../../../**",
 				);
-				HEADER_SEARCH_PATHS = $SOURCE_ROOT/../../../;
+				HEADER_SEARCH_PATHS = (
+					$SOURCE_ROOT/../../../,
+					$SOURCE_ROOT/../../../mars/openssl/include,
+				);
 				INFOPLIST_FILE = iOSDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = $SOURCE_ROOT/../../../mars/openssl/openssl_lib_iOS/;
 				PRODUCT_BUNDLE_IDENTIFIER = "cn.rongcloud.livechat-cn.rongcloud.livechat";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -858,61 +879,16 @@
 					"$(PROJECT_DIR)",
 					"$SOURCE_ROOT/../../../**",
 				);
-				HEADER_SEARCH_PATHS = $SOURCE_ROOT/../../../;
+				HEADER_SEARCH_PATHS = (
+					$SOURCE_ROOT/../../../,
+					$SOURCE_ROOT/../../../mars/openssl/include,
+				);
 				INFOPLIST_FILE = iOSDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = $SOURCE_ROOT/../../../mars/openssl/openssl_lib_iOS/;
 				PRODUCT_BUNDLE_IDENTIFIER = "cn.rongcloud.livechat-cn.rongcloud.livechat";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		1FB5771F1CE209A500ADCF8C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = iOSDemoTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.iOSDemoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSDemo.app/iOSDemo";
-			};
-			name = Debug;
-		};
-		1FB577201CE209A500ADCF8C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = iOSDemoTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.iOSDemoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSDemo.app/iOSDemo";
-			};
-			name = Release;
-		};
-		1FB577221CE209A500ADCF8C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = iOSDemoUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.iOSDemoUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = iOSDemo;
-				USES_XCTRUNNER = YES;
-			};
-			name = Debug;
-		};
-		1FB577231CE209A500ADCF8C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = iOSDemoUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.iOSDemoUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = iOSDemo;
-				USES_XCTRUNNER = YES;
 			};
 			name = Release;
 		};
@@ -933,24 +909,6 @@
 			buildConfigurations = (
 				1FB5771C1CE209A500ADCF8C /* Debug */,
 				1FB5771D1CE209A500ADCF8C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1FB5771E1CE209A500ADCF8C /* Build configuration list for PBXNativeTarget "iOSDemoTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1FB5771F1CE209A500ADCF8C /* Debug */,
-				1FB577201CE209A500ADCF8C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1FB577211CE209A500ADCF8C /* Build configuration list for PBXNativeTarget "iOSDemoUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1FB577221CE209A500ADCF8C /* Debug */,
-				1FB577231CE209A500ADCF8C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
