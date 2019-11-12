@@ -22,11 +22,11 @@
 
 #include <arpa/inet.h>
 
-#ifdef __APPLE__
-#include "mars/xlog/xlogger.h"
-#else
-#include "mars/comm/xlogger/xlogger.h"
-#endif
+//#ifdef __APPLE__
+//#include "mars/xlog/xlogger.h"
+//#else
+//#include "mars/comm/xlogger/xlogger.h"
+//#endif
 #include "mars/comm/autobuffer.h"
 #include "mars/stn/stn.h"
 

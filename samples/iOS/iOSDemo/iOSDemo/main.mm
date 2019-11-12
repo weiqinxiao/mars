@@ -22,9 +22,9 @@
 #import <Foundation/Foundation.h>
 #import <sys/xattr.h>
 
-#import <mars/xlog/xloggerbase.h>
-#import <mars/xlog/xlogger.h>
-#import <mars/xlog/appender.h>
+#import <mars/comm/xlogger/xloggerbase.h>
+#import <mars/comm/xlogger/xlogger.h>
+#import <mars/log/appender.h>
 
 #import "AppDelegate.h"
 

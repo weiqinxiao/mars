@@ -30,9 +30,9 @@
 
 #import <mars/app/app_logic.h>
 #import <mars/baseevent/base_logic.h>
-#import <mars/xlog/xlogger.h>
-#import <mars/xlog/xloggerbase.h>
-#import <mars/xlog/appender.h>
+#import <mars/comm/xlogger/xlogger.h>
+#import <mars/comm/xlogger/xloggerbase.h>
+#import <mars/log/appender.h>
 
 #import "stnproto_logic.h"
 

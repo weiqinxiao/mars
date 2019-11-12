@@ -20,7 +20,7 @@
 
 #import "LogHelper.h"
 
-#import <mars/xlog/xlogger.h>
+#import <mars/comm/xlogger/xlogger.h>
 
 static NSUInteger g_processID = 0;
 

@@ -15,7 +15,7 @@
 #include "stn_callback.h"
 
 #import <mars/comm/autobuffer.h>
-#import <mars/xlog/xlogger.h>
+#import <mars/comm/xlogger/xlogger.h>
 #import <mars/stn/stn.h>
 
 #include "NetworkService.h"

@@ -20,7 +20,7 @@
 
 #import "AppDelegate.h"
 
-#import <mars/xlog/appender.h>
+#import <mars/log/appender.h>
 
 #import "NetworkService.h"
 #import "NetworkEvent.h"

@@ -20,7 +20,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <mars/xlog/xloggerbase.h>
+#import <mars/comm/xlogger/xloggerbase.h>
 
 @interface LogHelper : NSObject
 
