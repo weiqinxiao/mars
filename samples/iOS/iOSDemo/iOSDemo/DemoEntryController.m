@@ -28,7 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSLog(@"DemoEntryController");
 }
 
 - (void)didReceiveMemoryWarning {

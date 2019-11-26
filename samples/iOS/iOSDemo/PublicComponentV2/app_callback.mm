@@ -20,7 +20,7 @@
 
 #include "app_callback.h"
 
-#include <mars/comm/autobuffer.h>
+#include "mars/comm/autobuffer.h"
 
 namespace mars {
     namespace app {

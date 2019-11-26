@@ -1,33 +1,20 @@
-// Tencent is pleased to support the open source community by making Mars available.
-// Copyright (C) 2016 THL A29 Limited, a Tencent company. All rights reserved.
-
-// Licensed under the MIT License (the "License"); you may not use this file except in 
-// compliance with the License. You may obtain a copy of the License at
-// http://opensource.org/licenses/MIT
-
-// Unless required by applicable law or agreed to in writing, software distributed under the License is
-// distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-// either express or implied. See the License for the specific language governing permissions and
-// limitations under the License.
-
 //
-//  stn_callback.h
-//  MPApp
+//  StnCallback.h
+//  MyDemo
 //
-//  Created by yanguoyue on 16/2/29.
-//  Copyright © 2016年 tencent. All rights reserved.
+//  Created by weiqinxiao on 2019/11/14.
+//  Copyright © 2019 club.linkyou. All rights reserved.
 //
 
-#ifndef STNCALLBACK_h
-#define STNCALLBACK_h
+#ifndef StnCallback_h
+#define StnCallback_h
 
-#import <mars/stn/stn_logic.h>
-
-#import "NetworkService.h"
+#include <stdio.h>
+#include "mars/stn/stn_logic.h"
+#include "ConnectivityLogic.hpp"
 
 namespace mars {
     namespace stn {
-        
         class StnCallBack : public Callback {
             
         private:
@@ -35,10 +22,15 @@ namespace mars {
             ~StnCallBack() {}
             StnCallBack(StnCallBack&);
             StnCallBack& operator = (StnCallBack&);
+            ConnectivityListener *listener_;
             
         public:
             static StnCallBack* Instance();
             static void Release();
+            
+            void setConnectivityListener(ConnectivityListener *listener) {
+                listener_ = listener;
+            }
             
             virtual bool MakesureAuthed(const std::string& _host);
             
@@ -55,7 +47,7 @@ namespace mars {
             virtual int Buf2Resp(uint32_t _taskid, void* const _user_context, const AutoBuffer& _inbuffer, const AutoBuffer& _extend, int& _error_code, const int _channel_select);
             //任务执行结束
             virtual int  OnTaskEnd(uint32_t _taskid, void* const _user_context, int _error_type, int _error_code);
-
+            
             //上报网络连接状态
             virtual void ReportConnectStatus(int _status, int longlink_status);
             //长连信令校验 ECHECK_NOW, ECHECK_NEVER = 1, ECHECK_NEXT = 2
@@ -64,8 +56,8 @@ namespace mars {
             virtual bool OnLonglinkIdentifyResponse(const AutoBuffer& _response_buffer, const AutoBuffer& _identify_buffer_hash);
             //
             virtual void RequestSync();
-
-
+            
+            
         private:
             static StnCallBack* instance_;
             
@@ -73,4 +65,4 @@ namespace mars {
     }
 }
 
-#endif /* STNCALLBACK_h */
+#endif /* StnCallback_h */

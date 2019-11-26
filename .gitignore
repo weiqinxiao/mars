@@ -115,3 +115,6 @@ Debug-iphonesimulator
 *.build
 cmake_build
 *.settings
+demo/IMDemo/DerivedData
+samples/iOS/iOSDemo/DerivedData
+DerivedData

@@ -66,13 +66,13 @@
 		1FDE37E01DE5DC7900CAC712 /* CGITask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE37DF1DE5DC7900CAC712 /* CGITask.mm */; };
 		4BDBD14B1E07F611006C62F5 /* NetworkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BDBD14A1E07F611006C62F5 /* NetworkStatus.m */; };
 		4BDBD16C1E0912AD006C62F5 /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB577871CE20FA300ADCF8C /* libresolv.9.tbd */; };
-		60B77A82237AAED100E157D1 /* libapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A79237AAEA800E157D1 /* libapp.a */; };
-		60B77A83237AAED100E157D1 /* libbaseevent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A7B237AAEA800E157D1 /* libbaseevent.a */; };
-		60B77A84237AAED100E157D1 /* libcomm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A75237AAEA800E157D1 /* libcomm.a */; };
-		60B77A85237AAED100E157D1 /* libmars-boost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A77237AAEA800E157D1 /* libmars-boost.a */; };
-		60B77A86237AAED100E157D1 /* libsdt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A7F237AAEA800E157D1 /* libsdt.a */; };
-		60B77A87237AAED100E157D1 /* libstn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A81237AAEA800E157D1 /* libstn.a */; };
-		60B77A88237AAED100E157D1 /* libxlog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A7D237AAEA800E157D1 /* libxlog.a */; };
+		60755B7D237D6F70006D1A5D /* libapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A79237AAEA800E157D1 /* libapp.a */; };
+		60755B7E237D6F70006D1A5D /* libbaseevent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A7B237AAEA800E157D1 /* libbaseevent.a */; };
+		60755B7F237D6F70006D1A5D /* libcomm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A75237AAEA800E157D1 /* libcomm.a */; };
+		60755B80237D6F70006D1A5D /* libmars-boost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A77237AAEA800E157D1 /* libmars-boost.a */; };
+		60755B81237D6F70006D1A5D /* libsdt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A7F237AAEA800E157D1 /* libsdt.a */; };
+		60755B82237D6F70006D1A5D /* libstn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A81237AAEA800E157D1 /* libstn.a */; };
+		60755B83237D6F70006D1A5D /* libxlog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A7D237AAEA800E157D1 /* libxlog.a */; };
 		60B77A8F237AB46200E157D1 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A8D237AB46100E157D1 /* libcrypto.a */; };
 		60B77A90237AB46200E157D1 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B77A8E237AB46200E157D1 /* libssl.a */; };
 /* End PBXBuildFile section */
@@ -261,7 +261,6 @@
 		1FDE37DF1DE5DC7900CAC712 /* CGITask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CGITask.mm; path = Bussiness/CGITask.mm; sourceTree = "<group>"; };
 		4BDBD1491E07F611006C62F5 /* NetworkStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkStatus.h; path = Bussiness/NetworkStatus.h; sourceTree = "<group>"; };
 		4BDBD14A1E07F611006C62F5 /* NetworkStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkStatus.m; path = Bussiness/NetworkStatus.m; sourceTree = "<group>"; };
-		6032E3EA237AA1100006C81A /* mars.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mars.framework; path = ../../../mars/cmake_build/iOS/Darwin.out/mars.framework; sourceTree = "<group>"; };
 		60B77A67237AAEA700E157D1 /* mars.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = mars.xcodeproj; path = ../../../mars/cmake_build/iOS/mars.xcodeproj; sourceTree = "<group>"; };
 		60B77A8D237AB46100E157D1 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../mars/openssl/openssl_lib_iOS/libcrypto.a; sourceTree = "<group>"; };
 		60B77A8E237AB46200E157D1 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../mars/openssl/openssl_lib_iOS/libssl.a; sourceTree = "<group>"; };
@@ -272,15 +271,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60755B7D237D6F70006D1A5D /* libapp.a in Frameworks */,
+				60755B7E237D6F70006D1A5D /* libbaseevent.a in Frameworks */,
+				60755B7F237D6F70006D1A5D /* libcomm.a in Frameworks */,
+				60755B80237D6F70006D1A5D /* libmars-boost.a in Frameworks */,
+				60755B81237D6F70006D1A5D /* libsdt.a in Frameworks */,
+				60755B82237D6F70006D1A5D /* libstn.a in Frameworks */,
+				60755B83237D6F70006D1A5D /* libxlog.a in Frameworks */,
 				60B77A8F237AB46200E157D1 /* libcrypto.a in Frameworks */,
 				60B77A90237AB46200E157D1 /* libssl.a in Frameworks */,
-				60B77A82237AAED100E157D1 /* libapp.a in Frameworks */,
-				60B77A83237AAED100E157D1 /* libbaseevent.a in Frameworks */,
-				60B77A84237AAED100E157D1 /* libcomm.a in Frameworks */,
-				60B77A85237AAED100E157D1 /* libmars-boost.a in Frameworks */,
-				60B77A86237AAED100E157D1 /* libsdt.a in Frameworks */,
-				60B77A87237AAED100E157D1 /* libstn.a in Frameworks */,
-				60B77A88237AAED100E157D1 /* libxlog.a in Frameworks */,
 				4BDBD16C1E0912AD006C62F5 /* libresolv.9.tbd in Frameworks */,
 				1FB577861CE20F7D00ADCF8C /* SystemConfiguration.framework in Frameworks */,
 				1FB577821CE20F1400ADCF8C /* libz.tbd in Frameworks */,
@@ -482,7 +481,6 @@
 		1FB577321CE20C1900ADCF8C /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				6032E3EA237AA1100006C81A /* mars.framework */,
 				1FB577871CE20FA300ADCF8C /* libresolv.9.tbd */,
 				1FB577851CE20F7D00ADCF8C /* SystemConfiguration.framework */,
 				1FB577811CE20F1400ADCF8C /* libz.tbd */,
