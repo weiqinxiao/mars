@@ -10,6 +10,9 @@
 #include "ConnectCommand.hpp"
 #include "ProtoClient.hpp"
 #include "ConnectAckCommand.hpp"
+#include "PublishCommand.hpp"
+#include "pbdata.h"
+#include "PingReqCommand.hpp"
 
 namespace mars {
     namespace stn {
@@ -23,7 +26,13 @@ namespace mars {
             return instance_;
         }
 
-        ConnectivityLogic::ConnectivityLogic():connectionState_(Disconnected),connectionListener_(NULL) {}
+        ConnectivityLogic::ConnectivityLogic():connectionState_(Disconnected),connectionListener_(NULL) {
+            struct pbc_slice slice;
+            slice.len = sizeof(pbdata);
+            slice.buffer = (void*)pbdata;
+            pbEnv_ = pbc_new();
+            pbc_register(pbEnv_, &slice);
+        }
         
         void ConnectivityLogic::onConnectionStatusChanged(int state) {
             switch (state) {
@@ -66,6 +75,12 @@ namespace mars {
         void ConnectivityLogic::doConnect(AutoBuffer &pack) {
             xinfo2(TSF"do connect: %_, %_", appKey_, token_);
             ConnectCommand cmd(appKey_.c_str(), token_.c_str(), deviceID_.c_str(), appName_.c_str(), userAgent_.c_str());
+            cmd.encode(pack);
+        }
+        
+        void ConnectivityLogic::doPing(AutoBuffer &pack) {
+            xinfo2(TSF"doPing");
+            PingReqCommand cmd;
             cmd.encode(pack);
         }
         

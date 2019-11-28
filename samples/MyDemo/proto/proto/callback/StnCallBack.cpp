@@ -11,6 +11,9 @@
 #include "mars/comm/xlogger/xlogger.h"
 #include "mars/stn/stn.h"
 #include "AbstractCommand.hpp"
+#include "PublishCommand.hpp"
+#include "PullMessageTask.hpp"
+#include "ConnectivityLogic.hpp"
 
 namespace mars {
     namespace stn {
@@ -47,22 +50,29 @@ namespace mars {
         }
         
         void StnCallBack::OnPush(uint64_t _channel_id, uint32_t _cmdid, uint32_t _taskid, const AutoBuffer& _body, const AutoBuffer& _extend) {
-            
+            xinfo2(TSF"OnPush: %_, ", _channel_id, _cmdid, _taskid);
         }
         
         bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffer& _outbuffer, AutoBuffer& _extend, int& _error_code, const int _channel_select, const std::string& host) {
-            return false;
+            xinfo2(TSF"Req2Buf: %_, channel = %_", _taskid, _channel_select);
+            if (_taskid == TaskID_PullMsg) {
+                PullMessageTask *pullTask = (PullMessageTask *)_user_context;
+                pullTask->encodeMessage(ConnectivityLogic::Instance()->getPBEnv(), _outbuffer);
+            }
+            return true;
         }
         
         int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const AutoBuffer& _inbuffer, const AutoBuffer& _extend, int& _error_code, const int _channel_select) {
-            
+            xinfo2(TSF"Buf2Resp: %_, channel = %_", _taskid, _channel_select);
+
             return 0;
         }
         
         int StnCallBack::OnTaskEnd(uint32_t _taskid, void* const _user_context, int _error_type, int _error_code) {
             xinfo2(TSF"OnTaskEnd: %_, %_, %_", _taskid, _error_code, _error_type);
+//            Task *task = (Task *)_user_context;
+//            delete task;
             return 0;
-            
         }
         
         void StnCallBack::ReportConnectStatus(int _status, int longlink_status) {
@@ -74,13 +84,14 @@ namespace mars {
         // 需要组件组包，发送一个req过去，网络成功会有resp，但没有taskend，处理事务时要注意网络时序
         // 不需组件组包，使用长链做一个sync，不用重试
         int  StnCallBack::GetLonglinkIdentifyCheckBuffer(AutoBuffer& _identify_buffer, AutoBuffer& _buffer_hash, int32_t& _cmdid) {
-            _cmdid = CmdID::CONNECT;
+            xinfo2(TSF"GetLonglinkIdentifyCheckBuffer: cmdid = %_", _cmdid);
+            _cmdid = CmdID_Connect;
             return IdentifyMode::kCheckNow;
         }
         
         bool StnCallBack::OnLonglinkIdentifyResponse(const AutoBuffer& _response_buffer, const AutoBuffer& _identify_buffer_hash) {
             xinfo2(TSF"OnLonglinkIdentifyResponse");
-            return false;
+            return true;
         }
         //
         void StnCallBack::RequestSync() {

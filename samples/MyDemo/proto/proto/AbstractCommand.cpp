@@ -63,14 +63,14 @@ namespace mars {
             }
         }
         
-        AbstractCommand::AbstractCommand(CmdID cmdid, CmdQos qos, CmdRetain retain) {
-            header_.cmdid = cmdid;
+        AbstractCommand::AbstractCommand(MqttCmd cmdid, CmdQos qos, CmdRetain retain) {
+            header_.mqttcmd = cmdid;
             header_.qos = qos;
             header_.retain = retain;
         }
         
         AbstractCommand::AbstractCommand(CmdHeader header) {
-            header_.cmdid = header.cmdid;
+            header_.mqttcmd = header.mqttcmd;
             header_.qos = header.qos;
             header_.retain = header.retain;
         }

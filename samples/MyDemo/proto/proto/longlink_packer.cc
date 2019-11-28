@@ -30,6 +30,7 @@
 #include "mars/comm/autobuffer.h"
 #include "mars/stn/stn.h"
 #include "ConnectivityLogic.hpp"
+#include "AbstractCommand.hpp"
 
 static uint32_t sg_client_version = 0;
 
@@ -45,6 +46,11 @@ struct __STNetMsgXpHeader {
 
 namespace mars {
     namespace stn {
+        
+#define NOOP_CMDID 6
+#define SIGNALKEEP_CMDID 243
+#define PUSH_DATA_TASKID 0
+        
         longlink_tracker* (*longlink_tracker::Create)()
         = []() {
             return new longlink_tracker;
@@ -54,43 +60,18 @@ namespace mars {
             sg_client_version = _client_version;
         }
         
-        
-        static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, size_t& _body_len) {
-            __STNetMsgXpHeader st = {0};
-            if (_packed_len < sizeof(__STNetMsgXpHeader)) {
-                _package_len = 0;
-                _body_len = 0;
-                return LONGLINK_UNPACK_CONTINUE;
-            }
-            
-            memcpy(&st, _packed, sizeof(__STNetMsgXpHeader));
-            
-            uint32_t head_len = ntohl(st.head_length);
-            uint32_t client_version = ntohl(st.client_version);
-            if (client_version != sg_client_version) {
-                _package_len = 0;
-                _body_len = 0;
-                return LONGLINK_UNPACK_FALSE;
-            }
-            _cmdid = ntohl(st.cmdid);
-            _seq = ntohl(st.seq);
-            _body_len = ntohl(st.body_length);
-            _package_len = head_len + _body_len;
-            
-            if (_package_len > 1024*1024) { return LONGLINK_UNPACK_FALSE; }
-            if (_package_len > _packed_len) { return LONGLINK_UNPACK_CONTINUE; }
-            
-            return LONGLINK_UNPACK_OK;
-        }
-        
         void (*longlink_pack)(uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker)
         = [](uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker) {
             xinfo2(TSF"longlink-log pack: %_", _cmdid);
             switch (_cmdid) {
-                case CONNECT:
+                case CmdID_Connect:
                     ConnectivityLogic::Instance()->doConnect(_packed);
                     break;
                 case PUBLISH:
+                    _packed.Write(_body);
+                    break;
+                case NOOP_CMDID:
+                    ConnectivityLogic::Instance()->doPing(_packed);
                     break;
             }
 
@@ -107,23 +88,25 @@ namespace mars {
             }
             unsigned char flag = ((unsigned char*)_packed.Ptr())[0];
             mars::stn::CmdHeader header(flag);
-            xinfo2(TSF"longlink-log unpack: %_", header.cmdid);
-            switch (header.cmdid) {
+            xinfo2(TSF"longlink-log unpack: %_", header.mqttcmd);
+            switch (header.mqttcmd) {
                 case CONNACK:
                     ConnectivityLogic::Instance()->onConnectCallBack(header, _packed);
                     _package_len = _packed.Length();
+                    _cmdid = CmdID_Connect;
+                    _seq = Task::kLongLinkIdentifyCheckerTaskID;
                     break;
                 case PUBLISH:
+                    break;
+                case PINGRESP:
+                    _package_len = _packed.Length();
+                    _cmdid = NOOP_CMDID;
                     break;
             }
             
             return LONGLINK_UNPACK_OK;
         };
         
-        
-#define NOOP_CMDID 6
-#define SIGNALKEEP_CMDID 243
-#define PUSH_DATA_TASKID 0
         
         uint32_t (*longlink_noop_cmdid)()
         = []() -> uint32_t {
@@ -152,7 +135,7 @@ namespace mars {
         
         uint32_t (*longlink_noop_interval)()
         = []() -> uint32_t {
-            return 0;
+            return 10 * 1000;
         };
         
         bool (*longlink_complexconnect_need_verify)()

@@ -19,6 +19,8 @@
 #include "mars/comm/autobuffer.h"
 #include "ConnectCommand.hpp"
 #include "ProtoListener.h"
+#include "pbc/pbc.h"
+
 
 namespace mars {
     namespace stn {
@@ -56,6 +58,7 @@ namespace mars {
             std::string token_;
             std::string host_;
             uint16_t port_;
+            pbc_env *pbEnv_;
             
         public:
             static ConnectivityLogic *Instance();
@@ -87,8 +90,13 @@ namespace mars {
             }
             
             void doConnect(AutoBuffer &pack);
+            void doPing(AutoBuffer &pack);
             
             void onConnectCallBack(const CmdHeader header, const AutoBuffer &pack);
+            
+            pbc_env *getPBEnv() {
+                return pbEnv_;
+            }
         };
     }
 }

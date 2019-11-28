@@ -7,7 +7,6 @@
 //
 
 #include "ConnectAckCommand.hpp"
-#include "Utils.hpp"
 
 namespace mars {
     namespace stn {

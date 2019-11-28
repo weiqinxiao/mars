@@ -52,6 +52,7 @@ namespace mars {
             mars::stn::SetCallback(stnCallBack);
             mars::app::SetCallback(mars::app::AppCallBack::Instance());
             mars::baseevent::OnCreate();
+            
             _gInitialized = true;
             //TODO DB
         }

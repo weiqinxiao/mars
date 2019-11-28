@@ -7,7 +7,6 @@
 //
 
 #include "ConnectCommand.hpp"
-#include "Utils.hpp"
 
 namespace mars {
     namespace stn {

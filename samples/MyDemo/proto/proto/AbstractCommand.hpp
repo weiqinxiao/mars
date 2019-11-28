@@ -16,8 +16,14 @@
 namespace mars {
     namespace stn {
         static unsigned char C_KEY[] = {106,79,19,35,14,41,20,121};
-
+        
         typedef enum _CmdID {
+            CmdID_Connect = 10,
+            CmdID_ConnectAck = 11,
+        } CmdID;
+
+
+        typedef enum _MqttCmd {
             CONNECT     = 1,
             CONNACK     = 2,
             PUBLISH     = 3,
@@ -33,7 +39,7 @@ namespace mars {
             PINGRESP    = 13,
             DISCONNECT  = 14,
             NONE        = 99,
-        } CmdID;
+        } MqttCmd;
         
         typedef enum _CmdQos {
             QOS_AT_MOST_ONCE = 0,
@@ -56,20 +62,20 @@ namespace mars {
             FLAG_CLIENTIP = 0x01,
         } CmdFlag;
         
-        typedef struct CmdHeader {
-            CmdID cmdid;
+        struct CmdHeader {
+            MqttCmd mqttcmd;
             CmdRetain retain;
             CmdQos qos;
             
             CmdHeader(unsigned char flag) {
-                cmdid =  CmdID((flag>>4)&0xf);
+                mqttcmd =  MqttCmd((flag>>4)&0xf);
                 qos = CmdQos((flag&0x6)>>1);
                 retain = CmdRetain(flag&0x1);
             }
             
             unsigned char encode() {
                 unsigned char flag = 0;
-                flag |= cmdid << 4;
+                flag |= mqttcmd << 4;
                 flag |= retain;
                 flag |= qos << 1;
                 return flag;
@@ -93,8 +99,6 @@ namespace mars {
             unsigned long decodedLength();
 
         protected:
-            AbstractCommand(CmdID cmdid, CmdQos qos = QOS_AT_MOST_ONCE, CmdRetain retain = RETAIN_NO);
-            AbstractCommand(CmdHeader header);
             void writeUTF8(const char* str);
             template<class T> void write(const T& _val) {
                 payload_.Write(_val);
@@ -113,6 +117,10 @@ namespace mars {
             virtual void decodeMessage() = 0;
             
         public:
+            AbstractCommand(MqttCmd cmdid, CmdQos qos = QOS_AT_MOST_ONCE, CmdRetain retain = RETAIN_NO);
+            AbstractCommand(CmdHeader header);
+            ~AbstractCommand(){};
+
             void encode(AutoBuffer& pack);
             void decode(const AutoBuffer& pack);
         };
