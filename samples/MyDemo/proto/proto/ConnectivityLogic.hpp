@@ -59,6 +59,7 @@ namespace mars {
             std::string host_;
             uint16_t port_;
             pbc_env *pbEnv_;
+            unsigned short pullMsgID_;
             
         public:
             static ConnectivityLogic *Instance();
@@ -91,8 +92,10 @@ namespace mars {
             
             void doConnect(AutoBuffer &pack);
             void doPing(AutoBuffer &pack);
+            void doPong();
+            void pullMessage(const char* topic, const unsigned char* data, const size_t dataLen, AutoBuffer& pack);
             
-            void onConnectCallBack(const CmdHeader header, const AutoBuffer &pack);
+            bool onConnectCallBack(const CmdHeader header, const AutoBuffer &pack);
             
             pbc_env *getPBEnv() {
                 return pbEnv_;

@@ -13,11 +13,11 @@
 
 namespace mars {
     namespace stn {
-        PullMessageTask::PullMessageTask():ProtoTask(TaskID::TaskID_PullMsg) {
-            cmdid = MqttCmd::PUBLISH;
+        PullMessageTask::PullMessageTask():ProtoTask(TaskID::TaskID_PullMsg, Topic_pullMsg) {
+            cmdid = CmdID_Publish;
         }
         
-        void PullMessageTask::encodeMessage(pbc_env *env, AutoBuffer &pack) {
+        void PullMessageTask::encodeMessage(pbc_env *env) {
             pbMsg_ = pbc_wmessage_new(env, "SyncRequestMsg");
             long syncTime = 0;
             long sendTime = 0;
@@ -31,8 +31,8 @@ namespace mars {
             pbc_wmessage_integer(pbMsg_, "syncSend", low_send, high_send);
             struct pbc_slice slice;
             pbc_wmessage_buffer(pbMsg_, &slice);
-            cmd_ = new PublishCommand(Topic_pullMsg, (const unsigned char*)slice.buffer, (unsigned long)slice.len);
-            cmd_->encode(pack);
+            data_ = (unsigned char*)slice.buffer;
+            dataLen_ = slice.len;
         }
     }
 }

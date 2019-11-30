@@ -20,8 +20,8 @@ namespace mars {
             const char *targetID_;
             const long long signature_;
             const unsigned char *data_;
-            const int msgID_;
-            const unsigned int dataLen_;
+            const unsigned short msgID_;
+            const size_t dataLen_;
             
         protected:
             size_t encodeMessage();
@@ -29,7 +29,7 @@ namespace mars {
             void decodeMessage();
             
         public:
-            PublishCommand(const char *topic, const unsigned char *data, const unsigned long dataLen);
+            PublishCommand(const unsigned short msgID, const char *topic, const unsigned char *data, const size_t dataLen);
         };
     }
 }

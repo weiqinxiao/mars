@@ -26,7 +26,7 @@ namespace mars {
             return instance_;
         }
 
-        ConnectivityLogic::ConnectivityLogic():connectionState_(Disconnected),connectionListener_(NULL) {
+        ConnectivityLogic::ConnectivityLogic():connectionState_(Disconnected),connectionListener_(NULL),pullMsgID_(1) {
             struct pbc_slice slice;
             slice.len = sizeof(pbdata);
             slice.buffer = (void*)pbdata;
@@ -73,27 +73,41 @@ namespace mars {
         }
 
         void ConnectivityLogic::doConnect(AutoBuffer &pack) {
-            xinfo2(TSF"do connect: %_, %_", appKey_, token_);
+            xinfo2(TSF"[wei] connect server: appKey = %_", appKey_);
             ConnectCommand cmd(appKey_.c_str(), token_.c_str(), deviceID_.c_str(), appName_.c_str(), userAgent_.c_str());
             cmd.encode(pack);
         }
         
         void ConnectivityLogic::doPing(AutoBuffer &pack) {
-            xinfo2(TSF"doPing");
+            xinfo2(TSF"[wei] send ping");
             PingReqCommand cmd;
             cmd.encode(pack);
         }
         
-        void ConnectivityLogic::onConnectCallBack(const CmdHeader header, const AutoBuffer &pack) {
+        void ConnectivityLogic::doPong() {
+            xinfo2(TSF"[wei] rcv pong");
+        }
+
+        void ConnectivityLogic::pullMessage(const char* topic, const unsigned char* data, const size_t dataLen, AutoBuffer& pack) {
+            xinfo2(TSF"[wei] send pull message, topic = %_", topic);
+            PublishCommand cmd(pullMsgID_, topic, data, dataLen);
+            cmd.encode(pack);
+            pullMsgID_++;
+            if (pullMsgID_ == 65535) pullMsgID_ = 1;
+        }
+        
+        bool ConnectivityLogic::onConnectCallBack(const CmdHeader header, const AutoBuffer &pack) {
             ConnectAckCommand *cmd = new ConnectAckCommand(header);
             cmd->decode(pack);
             ConnectionStatus state = cmd->getStatus();
             const char* userID = cmd->getUserID();
             if (cmd) delete cmd;
-            xinfo2(TSF"connect callback: %_", state);
+            xinfo2(TSF"[wei] : status = %_", state);
+            bool result = false;
             switch (state) {
                 case ACCEPTED:
                     connectionState_ = Connected;
+                    result = true;
                     break;
                 case REDIRECT:
                     connectionState_ = Redirected;
@@ -122,6 +136,7 @@ namespace mars {
             if (connectionListener_ != NULL) {
                 connectionListener_->onConnectionStatusChanged(state, userID);
             }
+            return result;
         }
     }
 }

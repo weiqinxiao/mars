@@ -11,14 +11,14 @@
 
 namespace mars {
     namespace stn {
-        PublishCommand::PublishCommand(const char *topic, const unsigned char *data, const unsigned long dataLen) : AbstractCommand(PUBLISH, CmdQos::QOS_AT_MOST_ONCE, CmdRetain::RETAIN_YES), topic_(topic), targetID_(NULL), signature_(0xff), data_(data), msgID_(0), dataLen_(dataLen) {
+        PublishCommand::PublishCommand(const unsigned short msgID, const char *topic, const unsigned char *data, const size_t dataLen) : AbstractCommand(QUERY, CmdQos::QOS_AT_MOST_ONCE, CmdRetain::RETAIN_YES), topic_(topic), targetID_(NULL), signature_(0xff), data_(data), msgID_(msgID), dataLen_(dataLen) {
             
         }
         
         size_t PublishCommand::encodeMessage() {
-            int lsb = msgID_ & 0xFF;
-            int msb = (msgID_ & 0xFF00) >> 8;
-            write(&signature_, 8);
+            unsigned short lsb = msgID_ & 0xFF;
+            unsigned short msb = (msgID_ & 0xFF00) >> 8;
+            wirteLong(signature_);
             writeUTF8(topic_);
             write(msb);
             write(lsb);

@@ -25,18 +25,31 @@ namespace mars {
         private:
             
         protected:
+            std::string topic_;
+            unsigned char* data_;
+            size_t dataLen_;
             pbc_wmessage *pbMsg_;
-            AbstractCommand *cmd_;
             
         public:
-            ProtoTask(TaskID cmdID);
+            ProtoTask(TaskID cmdID, std::string topic);
             
             ~ProtoTask() {
                 if (pbMsg_) pbc_wmessage_delete(pbMsg_);
-                if (cmd_) delete cmd_;
             };
             
-            virtual void encodeMessage(pbc_env *env, AutoBuffer &pack) = 0;
+            virtual void encodeMessage(pbc_env *env){};
+            
+            std::string getTopic() {
+                return topic_;
+            }
+            
+            unsigned char *getData() {
+                return data_;
+            }
+            
+            size_t getDataLen() {
+                return dataLen_;
+            }
         };
     }
 }

@@ -20,8 +20,7 @@ namespace mars {
             
         public:
             PullMessageTask();
-            void encodeMessage(pbc_env *env, AutoBuffer &pack);
-            
+            void encodeMessage(pbc_env *env);
         };
     }
 }

@@ -50,33 +50,39 @@ namespace mars {
         }
         
         void StnCallBack::OnPush(uint64_t _channel_id, uint32_t _cmdid, uint32_t _taskid, const AutoBuffer& _body, const AutoBuffer& _extend) {
-            xinfo2(TSF"OnPush: %_, ", _channel_id, _cmdid, _taskid);
+            xinfo2(TSF"[wei] _cmdid = %_, taskId = %_", _cmdid, _taskid);
         }
         
         bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffer& _outbuffer, AutoBuffer& _extend, int& _error_code, const int _channel_select, const std::string& host) {
-            xinfo2(TSF"Req2Buf: %_, channel = %_", _taskid, _channel_select);
+            xinfo2(TSF"[wei] taskid = %_, channel = %_", _taskid, _channel_select);
             if (_taskid == TaskID_PullMsg) {
                 PullMessageTask *pullTask = (PullMessageTask *)_user_context;
-                pullTask->encodeMessage(ConnectivityLogic::Instance()->getPBEnv(), _outbuffer);
+                pullTask->encodeMessage(ConnectivityLogic::Instance()->getPBEnv());
+                _outbuffer.Write(pullTask->getData(), pullTask->getDataLen());
+                _extend.Write(pullTask->getTopic());
             }
             return true;
         }
         
         int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const AutoBuffer& _inbuffer, const AutoBuffer& _extend, int& _error_code, const int _channel_select) {
-            xinfo2(TSF"Buf2Resp: %_, channel = %_", _taskid, _channel_select);
+            xinfo2(TSF"[wei] _taskid = %_, channel = %_", _taskid, _channel_select);
 
             return 0;
         }
         
         int StnCallBack::OnTaskEnd(uint32_t _taskid, void* const _user_context, int _error_type, int _error_code) {
-            xinfo2(TSF"OnTaskEnd: %_, %_, %_", _taskid, _error_code, _error_type);
-//            Task *task = (Task *)_user_context;
-//            delete task;
+            xinfo2(TSF"[wei] OnTaskEnd: %_, %_, %_", _taskid, _error_code, _error_type);
+            if (_user_context) {
+                if(((Task*)_user_context)->cmdid == CmdID_Publish) {
+                    ProtoTask *task = (ProtoTask*)_user_context;
+                    delete task;
+                }
+            }
             return 0;
         }
         
         void StnCallBack::ReportConnectStatus(int _status, int longlink_status) {
-            xinfo2(TSF"ReportConnectStatus: %_, %_", _status, longlink_status);
+            xinfo2(TSF"[wei] ReportConnectStatus: %_, %_", _status, longlink_status);
             listener_->onConnectionStatusChanged(longlink_status);            
         }
         
@@ -84,14 +90,24 @@ namespace mars {
         // 需要组件组包，发送一个req过去，网络成功会有resp，但没有taskend，处理事务时要注意网络时序
         // 不需组件组包，使用长链做一个sync，不用重试
         int  StnCallBack::GetLonglinkIdentifyCheckBuffer(AutoBuffer& _identify_buffer, AutoBuffer& _buffer_hash, int32_t& _cmdid) {
-            xinfo2(TSF"GetLonglinkIdentifyCheckBuffer: cmdid = %_", _cmdid);
+            xinfo2(TSF"[wei] GetLonglinkIdentifyCheckBuffer: cmdid = %_", _cmdid);
             _cmdid = CmdID_Connect;
             return IdentifyMode::kCheckNow;
         }
         
         bool StnCallBack::OnLonglinkIdentifyResponse(const AutoBuffer& _response_buffer, const AutoBuffer& _identify_buffer_hash) {
-            xinfo2(TSF"OnLonglinkIdentifyResponse");
-            return true;
+            unsigned char flag = ((unsigned char*)_response_buffer.Ptr())[0];
+            mars::stn::CmdHeader header(flag);
+            bool accpted = ConnectivityLogic::Instance()->onConnectCallBack(header, _response_buffer);
+            xinfo2(TSF"[wei] accpted = %_", accpted);
+            if (accpted) {
+                PullMessageTask *task = new PullMessageTask();
+                mars::stn::StartTask(*task);
+                xinfo2(TSF"[wei] start PullMessageTask");
+            } else {
+                
+            }
+            return accpted;
         }
         //
         void StnCallBack::RequestSync() {

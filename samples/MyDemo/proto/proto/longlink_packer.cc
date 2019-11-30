@@ -62,16 +62,18 @@ namespace mars {
         
         void (*longlink_pack)(uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker)
         = [](uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker) {
-            xinfo2(TSF"longlink-log pack: %_", _cmdid);
+            xinfo2(TSF"[wei] pack cmdid = %_, seq = %_", _cmdid, _seq);
             switch (_cmdid) {
                 case CmdID_Connect:
                     ConnectivityLogic::Instance()->doConnect(_packed);
                     break;
-                case PUBLISH:
-                    _packed.Write(_body);
-                    break;
                 case NOOP_CMDID:
                     ConnectivityLogic::Instance()->doPing(_packed);
+                    break;
+                case CmdID_Publish:
+                    std::string topic;
+                    memcpy(&topic, _extension.Ptr(), _extension.Length());
+                    ConnectivityLogic::Instance()->pullMessage(topic.c_str(), (unsigned char*)_body.Ptr(), _body.Length(), _packed);
                     break;
             }
 
@@ -83,24 +85,31 @@ namespace mars {
         = [](const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension, longlink_tracker* _tracker) {
             size_t len = _packed.Length();
             if (_packed.Length() < 2) {
-                xwarn2(TSF"longlink-log unpack: size less 2, %_", len);
+                xwarn2(TSF"unpack: size less 2, %_", len);
                 return LONGLINK_UNPACK_CONTINUE;
             }
             unsigned char flag = ((unsigned char*)_packed.Ptr())[0];
             mars::stn::CmdHeader header(flag);
-            xinfo2(TSF"longlink-log unpack: %_", header.mqttcmd);
+            xinfo2(TSF"[wei] unpack: mqttcmd = %_, rcvLen = %_", header.mqttcmd, _packed.Length());
             switch (header.mqttcmd) {
                 case CONNACK:
-                    ConnectivityLogic::Instance()->onConnectCallBack(header, _packed);
+                    _body.Write(_packed);
                     _package_len = _packed.Length();
                     _cmdid = CmdID_Connect;
                     _seq = Task::kLongLinkIdentifyCheckerTaskID;
                     break;
-                case PUBLISH:
+                case PUBACK:
+                    break;
+                case QUERYACK:
+                    _cmdid = CmdID_PullMsg;
+                    _package_len = _packed.Length();
+                    _seq = 0;
                     break;
                 case PINGRESP:
+                    ConnectivityLogic::Instance()->doPong();
                     _package_len = _packed.Length();
                     _cmdid = NOOP_CMDID;
+                    _seq = Task::kNoopTaskID;
                     break;
             }
             
@@ -135,7 +144,7 @@ namespace mars {
         
         uint32_t (*longlink_noop_interval)()
         = []() -> uint32_t {
-            return 10 * 1000;
+            return 20 * 1000;
         };
         
         bool (*longlink_complexconnect_need_verify)()

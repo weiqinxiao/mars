@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string>
 #include "mars/comm/autobuffer.h"
+#include "mars/comm/xlogger/xlogger.h"
 
 namespace mars {
     namespace stn {
@@ -19,7 +20,8 @@ namespace mars {
         
         typedef enum _CmdID {
             CmdID_Connect = 10,
-            CmdID_ConnectAck = 11,
+            CmdID_Publish = 11,
+            CmdID_PullMsg = 12,
         } CmdID;
 
 
@@ -95,17 +97,18 @@ namespace mars {
             const unsigned short protoKeepAlive = 0xA;
             
         private:
-            unsigned char encodedLength(size_t code, size_t len, unsigned int* count, AutoBuffer &pack);
-            unsigned long decodedLength();
+            unsigned char calculateCheckSum(size_t code, size_t len, unsigned int* count, AutoBuffer &pack);
+            int decodedLength(unsigned char headerCode, unsigned char checksum);
 
         protected:
             void writeUTF8(const char* str);
             template<class T> void write(const T& _val) {
                 payload_.Write(_val);
             };
-            void write(const void* ptr, int len) {
+            void write(const void* ptr, size_t len) {
                 payload_.Write(ptr, len);
             };
+            void wirteLong(long long v);
             void seekStart() {
                 payload_.Seek(0, AutoBuffer::ESeekStart);
             }

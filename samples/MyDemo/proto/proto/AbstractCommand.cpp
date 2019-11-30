@@ -11,25 +11,24 @@
 namespace mars {
     namespace stn {
         
-        unsigned char AbstractCommand::encodedLength(size_t code, size_t len, unsigned int* count, AutoBuffer &pack) {
-            (*count) = 1;
+        unsigned char AbstractCommand::calculateCheckSum(size_t code, size_t msgLen, unsigned int* count, AutoBuffer &pack) {
+            (*count) = 0;
             pack.Write((unsigned char)0);
             do {
-                unsigned char b = (unsigned char) (len & 0x7F);
-                len >>= 7;
-                if (len > 0) {
+                (*count)++;
+                unsigned char b = (unsigned char) (msgLen & 0x7F);
+                msgLen >>= 7;
+                if (msgLen > 0) {
                     b |= 0x80;
-                    (*count)++;
                 }
                 code = code ^ b;
                 pack.Write(b);
-            } while (len > 0);
+                xinfo2(TSF"encode: b=%_", (int)b);
+            } while (msgLen > 0);
             return code;
         }
         
-        unsigned long AbstractCommand::decodedLength() {
-            unsigned char headerCode = readByte();
-            unsigned char checksum = readByte();
+        int AbstractCommand::decodedLength(unsigned char headerCode, unsigned char checksum) {
             int digit;
             int msgLength = 0;
             int multiplier = 1;
@@ -41,18 +40,11 @@ namespace mars {
                 code = code ^ digit;
                 msgLength += (digit & 0x7f) * multiplier;
                 multiplier *= 128;
+                xinfo2(TSF"decode: b=%_", (int)digit);
             } while ((digit&0x80)>0);
             return 2 + lengthSize;
         }
-        
-        unsigned char checkSum(unsigned char ch, unsigned char* pLenBuff, unsigned int nLength)
-        {
-            for (unsigned int i = 0; i < nLength; i++)
-                ch ^= pLenBuff[i];
-            return ch;
-        }
-        
-        
+
         void obfuscation(unsigned char* data, int start, size_t dataLen) {
             int b = 0;
             for (int i = start; i < dataLen; i += 8) {
@@ -76,13 +68,13 @@ namespace mars {
         }
 
         void AbstractCommand::encode(AutoBuffer &pack) {
-            size_t len = encodeMessage();
+            size_t msgLen = encodeMessage();
             unsigned int count = 0;
             unsigned char headerCode = header_.encode();
             pack.Write(headerCode);
-            unsigned char encodedCode = encodedLength(headerCode, len, &count, pack);
-            unsigned char checksum = checkSum(headerCode, (unsigned char*)&encodedCode, count);
-            ((unsigned char *)pack.Ptr())[1] = checksum;
+            unsigned char checkSum = calculateCheckSum(headerCode, msgLen, &count, pack);
+            
+            ((unsigned char *)pack.Ptr())[1] = checkSum;
             pack.Write(payload_);
             obfuscation((unsigned char*)pack.Ptr(), 2 + count, pack.Length());
         }
@@ -90,7 +82,9 @@ namespace mars {
         void AbstractCommand::decode(const AutoBuffer& pack) {
             write(pack);
             seekStart();
-            int len = decodedLength();
+            unsigned char headerCode = readByte();
+            unsigned char checksum = readByte();
+            int len = decodedLength(headerCode, checksum);
             obfuscation((unsigned char*)payload_.Ptr(), len, payloadLength());
             decodeMessage();
         }
@@ -101,6 +95,19 @@ namespace mars {
             unsigned short w = (unsigned short)((len>>8) | ((len&0xFF)<<8));
             payload_.Write(&w, 2);
             payload_.Write(str, len);
+        }
+        
+        void AbstractCommand::wirteLong(long long v) {
+            unsigned char flag[8] = {0};
+            flag[0] = (unsigned char)(v >> 56);
+            flag[1] = (unsigned char)(v >> 48);
+            flag[2] = (unsigned char)(v >> 40);
+            flag[3] = (unsigned char)(v >> 32);
+            flag[4] = (unsigned char)(v >> 24);
+            flag[5] = (unsigned char)(v >> 16);
+            flag[6] = (unsigned char)(v >>  8);
+            flag[7] = (unsigned char)(v >>  0);
+            payload_.Write(flag, 8);
         }
 
         char* AbstractCommand::readUTF8() {
