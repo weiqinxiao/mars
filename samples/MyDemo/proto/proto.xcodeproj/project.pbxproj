@@ -1,0 +1,468 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		60195730237E7D1F007AA4BB /* ConnectivityLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6019572E237E7D1F007AA4BB /* ConnectivityLogic.cpp */; };
+		60195733237E833C007AA4BB /* AbstractCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60195731237E833C007AA4BB /* AbstractCommand.cpp */; };
+		60195736237EA2F4007AA4BB /* ConnectCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60195734237EA2F4007AA4BB /* ConnectCommand.cpp */; };
+		6019574D238B7B40007AA4BB /* ConnectAckCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6019574B238B7B40007AA4BB /* ConnectAckCommand.cpp */; };
+		60195764238CFE81007AA4BB /* PublishCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60195762238CFE81007AA4BB /* PublishCommand.cpp */; };
+		604063D3238D2F5E00F52FD8 /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = 604063BE238D2F5E00F52FD8 /* array.c */; };
+		604063D4238D2F5E00F52FD8 /* rmessage.c in Sources */ = {isa = PBXBuildFile; fileRef = 604063C0238D2F5E00F52FD8 /* rmessage.c */; };
+		604063D5238D2F5E00F52FD8 /* register.c in Sources */ = {isa = PBXBuildFile; fileRef = 604063C1238D2F5E00F52FD8 /* register.c */; };
+		604063D6238D2F5E00F52FD8 /* decode.c in Sources */ = {isa = PBXBuildFile; fileRef = 604063C3238D2F5E00F52FD8 /* decode.c */; };
+		604063D7238D2F5E00F52FD8 /* stringpool.c in Sources */ = {isa = PBXBuildFile; fileRef = 604063C4238D2F5E00F52FD8 /* stringpool.c */; };
+		604063D8238D2F5E00F52FD8 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 604063C7238D2F5E00F52FD8 /* alloc.c */; };
+		604063D9238D2F5E00F52FD8 /* varint.c in Sources */ = {isa = PBXBuildFile; fileRef = 604063C8238D2F5E00F52FD8 /* varint.c */; };
+		604063DA238D2F5E00F52FD8 /* map.c in Sources */ = {isa = PBXBuildFile; fileRef = 604063CA238D2F5E00F52FD8 /* map.c */; };
+		604063DB238D2F5E00F52FD8 /* proto.c in Sources */ = {isa = PBXBuildFile; fileRef = 604063CB238D2F5E00F52FD8 /* proto.c */; };
+		604063DC238D2F5E00F52FD8 /* context.c in Sources */ = {isa = PBXBuildFile; fileRef = 604063CC238D2F5E00F52FD8 /* context.c */; };
+		604063DD238D2F5E00F52FD8 /* wmessage.c in Sources */ = {isa = PBXBuildFile; fileRef = 604063CE238D2F5E00F52FD8 /* wmessage.c */; };
+		604063DE238D2F5E00F52FD8 /* pattern.c in Sources */ = {isa = PBXBuildFile; fileRef = 604063D0238D2F5E00F52FD8 /* pattern.c */; };
+		604063DF238D2F5E00F52FD8 /* bootstrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 604063D1238D2F5E00F52FD8 /* bootstrap.c */; };
+		604063E2238D347000F52FD8 /* PullMessageTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604063E0238D347000F52FD8 /* PullMessageTask.cpp */; };
+		604063E8238E226700F52FD8 /* ProtoTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604063E5238E19D500F52FD8 /* ProtoTask.cpp */; };
+		604063ED238E74DB00F52FD8 /* PingReqCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604063EB238E74DB00F52FD8 /* PingReqCommand.cpp */; };
+		60755B67237D449D006D1A5D /* AppCallBack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60755B65237D449D006D1A5D /* AppCallBack.cpp */; };
+		60755B6B237D5546006D1A5D /* ProtoClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60755B69237D5546006D1A5D /* ProtoClient.cpp */; };
+		60755C11237E446E006D1A5D /* longlink_packer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 60755C0F237E446E006D1A5D /* longlink_packer.cc */; };
+		60755C14237E4483006D1A5D /* shortlink_packer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 60755C12237E4482006D1A5D /* shortlink_packer.cc */; };
+		60755C1B237E46FD006D1A5D /* StnCallBack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60755C19237E46FD006D1A5D /* StnCallBack.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		60755B51237D43B7006D1A5D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6019572E237E7D1F007AA4BB /* ConnectivityLogic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConnectivityLogic.cpp; sourceTree = "<group>"; };
+		6019572F237E7D1F007AA4BB /* ConnectivityLogic.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ConnectivityLogic.hpp; sourceTree = "<group>"; };
+		60195731237E833C007AA4BB /* AbstractCommand.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AbstractCommand.cpp; sourceTree = "<group>"; };
+		60195732237E833C007AA4BB /* AbstractCommand.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AbstractCommand.hpp; sourceTree = "<group>"; };
+		60195734237EA2F4007AA4BB /* ConnectCommand.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConnectCommand.cpp; sourceTree = "<group>"; };
+		60195735237EA2F4007AA4BB /* ConnectCommand.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ConnectCommand.hpp; sourceTree = "<group>"; };
+		6019574B238B7B40007AA4BB /* ConnectAckCommand.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConnectAckCommand.cpp; sourceTree = "<group>"; };
+		6019574C238B7B40007AA4BB /* ConnectAckCommand.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ConnectAckCommand.hpp; sourceTree = "<group>"; };
+		60195753238BB5DB007AA4BB /* ProtoListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProtoListener.h; sourceTree = "<group>"; };
+		60195762238CFE81007AA4BB /* PublishCommand.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PublishCommand.cpp; sourceTree = "<group>"; };
+		60195763238CFE81007AA4BB /* PublishCommand.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PublishCommand.hpp; sourceTree = "<group>"; };
+		604063BB238D2F5E00F52FD8 /* varint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = varint.h; sourceTree = "<group>"; };
+		604063BC238D2F5E00F52FD8 /* proto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = proto.h; sourceTree = "<group>"; };
+		604063BD238D2F5E00F52FD8 /* descriptor.pbc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = descriptor.pbc.h; sourceTree = "<group>"; };
+		604063BE238D2F5E00F52FD8 /* array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = array.c; sourceTree = "<group>"; };
+		604063BF238D2F5E00F52FD8 /* map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = map.h; sourceTree = "<group>"; };
+		604063C0238D2F5E00F52FD8 /* rmessage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rmessage.c; sourceTree = "<group>"; };
+		604063C1238D2F5E00F52FD8 /* register.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = register.c; sourceTree = "<group>"; };
+		604063C2238D2F5E00F52FD8 /* context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = context.h; sourceTree = "<group>"; };
+		604063C3238D2F5E00F52FD8 /* decode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = decode.c; sourceTree = "<group>"; };
+		604063C4238D2F5E00F52FD8 /* stringpool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stringpool.c; sourceTree = "<group>"; };
+		604063C5238D2F5E00F52FD8 /* bootstrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bootstrap.h; sourceTree = "<group>"; };
+		604063C6238D2F5E00F52FD8 /* pattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pattern.h; sourceTree = "<group>"; };
+		604063C7238D2F5E00F52FD8 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alloc.c; sourceTree = "<group>"; };
+		604063C8238D2F5E00F52FD8 /* varint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = varint.c; sourceTree = "<group>"; };
+		604063C9238D2F5E00F52FD8 /* array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = array.h; sourceTree = "<group>"; };
+		604063CA238D2F5E00F52FD8 /* map.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = map.c; sourceTree = "<group>"; };
+		604063CB238D2F5E00F52FD8 /* proto.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = proto.c; sourceTree = "<group>"; };
+		604063CC238D2F5E00F52FD8 /* context.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = context.c; sourceTree = "<group>"; };
+		604063CD238D2F5E00F52FD8 /* pbc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pbc.h; sourceTree = "<group>"; };
+		604063CE238D2F5E00F52FD8 /* wmessage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wmessage.c; sourceTree = "<group>"; };
+		604063CF238D2F5E00F52FD8 /* alloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alloc.h; sourceTree = "<group>"; };
+		604063D0238D2F5E00F52FD8 /* pattern.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pattern.c; sourceTree = "<group>"; };
+		604063D1238D2F5E00F52FD8 /* bootstrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bootstrap.c; sourceTree = "<group>"; };
+		604063D2238D2F5E00F52FD8 /* stringpool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stringpool.h; sourceTree = "<group>"; };
+		604063E0238D347000F52FD8 /* PullMessageTask.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PullMessageTask.cpp; sourceTree = "<group>"; };
+		604063E1238D347000F52FD8 /* PullMessageTask.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PullMessageTask.hpp; sourceTree = "<group>"; };
+		604063E3238D353700F52FD8 /* MessageTopic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageTopic.h; sourceTree = "<group>"; };
+		604063E4238D36DE00F52FD8 /* pbdata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pbdata.h; sourceTree = "<group>"; };
+		604063E5238E19D500F52FD8 /* ProtoTask.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProtoTask.cpp; sourceTree = "<group>"; };
+		604063E6238E19D500F52FD8 /* ProtoTask.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProtoTask.hpp; sourceTree = "<group>"; };
+		604063EB238E74DB00F52FD8 /* PingReqCommand.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PingReqCommand.cpp; sourceTree = "<group>"; };
+		604063EC238E74DB00F52FD8 /* PingReqCommand.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PingReqCommand.hpp; sourceTree = "<group>"; };
+		60755B53237D43B7006D1A5D /* libproto.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libproto.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		60755B65237D449D006D1A5D /* AppCallBack.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AppCallBack.cpp; sourceTree = "<group>"; };
+		60755B66237D449D006D1A5D /* AppCallBack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCallBack.h; sourceTree = "<group>"; };
+		60755B69237D5546006D1A5D /* ProtoClient.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProtoClient.cpp; sourceTree = "<group>"; };
+		60755B6A237D5546006D1A5D /* ProtoClient.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProtoClient.hpp; sourceTree = "<group>"; };
+		60755C0F237E446E006D1A5D /* longlink_packer.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = longlink_packer.cc; sourceTree = "<group>"; };
+		60755C10237E446E006D1A5D /* longlink_packer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = longlink_packer.h; sourceTree = "<group>"; };
+		60755C12237E4482006D1A5D /* shortlink_packer.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shortlink_packer.cc; sourceTree = "<group>"; };
+		60755C13237E4482006D1A5D /* shortlink_packer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shortlink_packer.h; sourceTree = "<group>"; };
+		60755C19237E46FD006D1A5D /* StnCallBack.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StnCallBack.cpp; sourceTree = "<group>"; };
+		60755C1A237E46FD006D1A5D /* StnCallBack.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = StnCallBack.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		60755B50237D43B7006D1A5D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		604063BA238D2F5E00F52FD8 /* pbc */ = {
+			isa = PBXGroup;
+			children = (
+				604063BB238D2F5E00F52FD8 /* varint.h */,
+				604063BC238D2F5E00F52FD8 /* proto.h */,
+				604063BD238D2F5E00F52FD8 /* descriptor.pbc.h */,
+				604063BE238D2F5E00F52FD8 /* array.c */,
+				604063BF238D2F5E00F52FD8 /* map.h */,
+				604063C0238D2F5E00F52FD8 /* rmessage.c */,
+				604063C1238D2F5E00F52FD8 /* register.c */,
+				604063C2238D2F5E00F52FD8 /* context.h */,
+				604063C3238D2F5E00F52FD8 /* decode.c */,
+				604063C4238D2F5E00F52FD8 /* stringpool.c */,
+				604063C5238D2F5E00F52FD8 /* bootstrap.h */,
+				604063C6238D2F5E00F52FD8 /* pattern.h */,
+				604063C7238D2F5E00F52FD8 /* alloc.c */,
+				604063C8238D2F5E00F52FD8 /* varint.c */,
+				604063C9238D2F5E00F52FD8 /* array.h */,
+				604063CA238D2F5E00F52FD8 /* map.c */,
+				604063CB238D2F5E00F52FD8 /* proto.c */,
+				604063CC238D2F5E00F52FD8 /* context.c */,
+				604063CD238D2F5E00F52FD8 /* pbc.h */,
+				604063CE238D2F5E00F52FD8 /* wmessage.c */,
+				604063CF238D2F5E00F52FD8 /* alloc.h */,
+				604063D0238D2F5E00F52FD8 /* pattern.c */,
+				604063D1238D2F5E00F52FD8 /* bootstrap.c */,
+				604063D2238D2F5E00F52FD8 /* stringpool.h */,
+			);
+			path = pbc;
+			sourceTree = "<group>";
+		};
+		60755B4A237D43B6006D1A5D = {
+			isa = PBXGroup;
+			children = (
+				60755B55237D43B7006D1A5D /* proto */,
+				60755B54237D43B7006D1A5D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		60755B54237D43B7006D1A5D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				60755B53237D43B7006D1A5D /* libproto.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		60755B55237D43B7006D1A5D /* proto */ = {
+			isa = PBXGroup;
+			children = (
+				60755C15237E46CD006D1A5D /* callback */,
+				60755C0E237E4441006D1A5D /* core */,
+				60755B69237D5546006D1A5D /* ProtoClient.cpp */,
+				60755B6A237D5546006D1A5D /* ProtoClient.hpp */,
+				60195753238BB5DB007AA4BB /* ProtoListener.h */,
+			);
+			path = proto;
+			sourceTree = "<group>";
+		};
+		60755C0E237E4441006D1A5D /* core */ = {
+			isa = PBXGroup;
+			children = (
+				604063BA238D2F5E00F52FD8 /* pbc */,
+				60755C0F237E446E006D1A5D /* longlink_packer.cc */,
+				60755C10237E446E006D1A5D /* longlink_packer.h */,
+				60755C12237E4482006D1A5D /* shortlink_packer.cc */,
+				60755C13237E4482006D1A5D /* shortlink_packer.h */,
+				6019572E237E7D1F007AA4BB /* ConnectivityLogic.cpp */,
+				6019572F237E7D1F007AA4BB /* ConnectivityLogic.hpp */,
+				60195731237E833C007AA4BB /* AbstractCommand.cpp */,
+				60195732237E833C007AA4BB /* AbstractCommand.hpp */,
+				60195734237EA2F4007AA4BB /* ConnectCommand.cpp */,
+				60195735237EA2F4007AA4BB /* ConnectCommand.hpp */,
+				6019574B238B7B40007AA4BB /* ConnectAckCommand.cpp */,
+				6019574C238B7B40007AA4BB /* ConnectAckCommand.hpp */,
+				60195762238CFE81007AA4BB /* PublishCommand.cpp */,
+				60195763238CFE81007AA4BB /* PublishCommand.hpp */,
+				604063E0238D347000F52FD8 /* PullMessageTask.cpp */,
+				604063E1238D347000F52FD8 /* PullMessageTask.hpp */,
+				604063E3238D353700F52FD8 /* MessageTopic.h */,
+				604063E4238D36DE00F52FD8 /* pbdata.h */,
+				604063E5238E19D500F52FD8 /* ProtoTask.cpp */,
+				604063E6238E19D500F52FD8 /* ProtoTask.hpp */,
+				604063EB238E74DB00F52FD8 /* PingReqCommand.cpp */,
+				604063EC238E74DB00F52FD8 /* PingReqCommand.hpp */,
+			);
+			name = core;
+			sourceTree = "<group>";
+		};
+		60755C15237E46CD006D1A5D /* callback */ = {
+			isa = PBXGroup;
+			children = (
+				60755B65237D449D006D1A5D /* AppCallBack.cpp */,
+				60755B66237D449D006D1A5D /* AppCallBack.h */,
+				60755C19237E46FD006D1A5D /* StnCallBack.cpp */,
+				60755C1A237E46FD006D1A5D /* StnCallBack.hpp */,
+			);
+			path = callback;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		60755B52237D43B7006D1A5D /* proto */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 60755B5C237D43B7006D1A5D /* Build configuration list for PBXNativeTarget "proto" */;
+			buildPhases = (
+				60755B4F237D43B7006D1A5D /* Sources */,
+				60755B50237D43B7006D1A5D /* Frameworks */,
+				60755B51237D43B7006D1A5D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = proto;
+			productName = proto;
+			productReference = 60755B53237D43B7006D1A5D /* libproto.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		60755B4B237D43B6006D1A5D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1030;
+				ORGANIZATIONNAME = club.linkyou;
+				TargetAttributes = {
+					60755B52237D43B7006D1A5D = {
+						CreatedOnToolsVersion = 10.3;
+					};
+				};
+			};
+			buildConfigurationList = 60755B4E237D43B6006D1A5D /* Build configuration list for PBXProject "proto" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 60755B4A237D43B6006D1A5D;
+			productRefGroup = 60755B54237D43B7006D1A5D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				60755B52237D43B7006D1A5D /* proto */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		60755B4F237D43B7006D1A5D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				604063E8238E226700F52FD8 /* ProtoTask.cpp in Sources */,
+				60195733237E833C007AA4BB /* AbstractCommand.cpp in Sources */,
+				60755C1B237E46FD006D1A5D /* StnCallBack.cpp in Sources */,
+				60755C14237E4483006D1A5D /* shortlink_packer.cc in Sources */,
+				60755B67237D449D006D1A5D /* AppCallBack.cpp in Sources */,
+				60195736237EA2F4007AA4BB /* ConnectCommand.cpp in Sources */,
+				6019574D238B7B40007AA4BB /* ConnectAckCommand.cpp in Sources */,
+				60195764238CFE81007AA4BB /* PublishCommand.cpp in Sources */,
+				604063DE238D2F5E00F52FD8 /* pattern.c in Sources */,
+				604063D9238D2F5E00F52FD8 /* varint.c in Sources */,
+				604063DB238D2F5E00F52FD8 /* proto.c in Sources */,
+				604063D3238D2F5E00F52FD8 /* array.c in Sources */,
+				604063DC238D2F5E00F52FD8 /* context.c in Sources */,
+				604063D8238D2F5E00F52FD8 /* alloc.c in Sources */,
+				60755C11237E446E006D1A5D /* longlink_packer.cc in Sources */,
+				604063DA238D2F5E00F52FD8 /* map.c in Sources */,
+				604063DF238D2F5E00F52FD8 /* bootstrap.c in Sources */,
+				604063ED238E74DB00F52FD8 /* PingReqCommand.cpp in Sources */,
+				604063DD238D2F5E00F52FD8 /* wmessage.c in Sources */,
+				604063E2238D347000F52FD8 /* PullMessageTask.cpp in Sources */,
+				60755B6B237D5546006D1A5D /* ProtoClient.cpp in Sources */,
+				604063D7238D2F5E00F52FD8 /* stringpool.c in Sources */,
+				604063D4238D2F5E00F52FD8 /* rmessage.c in Sources */,
+				604063D6238D2F5E00F52FD8 /* decode.c in Sources */,
+				60195730237E7D1F007AA4BB /* ConnectivityLogic.cpp in Sources */,
+				604063D5238D2F5E00F52FD8 /* register.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		60755B5A237D43B7006D1A5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		60755B5B237D43B7006D1A5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		60755B5D237D43B7006D1A5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9CVMN4UZK4;
+				HEADER_SEARCH_PATHS = $SOURCE_ROOT/../../../;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		60755B5E237D43B7006D1A5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9CVMN4UZK4;
+				HEADER_SEARCH_PATHS = $SOURCE_ROOT/../../../;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		60755B4E237D43B6006D1A5D /* Build configuration list for PBXProject "proto" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60755B5A237D43B7006D1A5D /* Debug */,
+				60755B5B237D43B7006D1A5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		60755B5C237D43B7006D1A5D /* Build configuration list for PBXNativeTarget "proto" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60755B5D237D43B7006D1A5D /* Debug */,
+				60755B5E237D43B7006D1A5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 60755B4B237D43B6006D1A5D /* Project object */;
+}
