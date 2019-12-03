@@ -28,7 +28,7 @@ namespace mars {
             
         protected:
             size_t encodeMessage();
-            void decodeMessage();
+            void decodeMessage(unsigned int msgLen) {};
         };
     }
 }

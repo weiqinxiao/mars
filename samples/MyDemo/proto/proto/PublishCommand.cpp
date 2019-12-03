@@ -26,7 +26,7 @@ namespace mars {
             return payloadLength();
         }
         
-        void PublishCommand::decodeMessage() {
+        void PublishCommand::decodeMessage(unsigned int msgLen) {
             
         }
     }

@@ -26,7 +26,7 @@ namespace mars {
         protected:
             size_t encodeMessage();
             
-            void decodeMessage();
+            void decodeMessage(unsigned int msgLen);
             
         public:
             PublishCommand(const unsigned short msgID, const char *topic, const unsigned char *data, const size_t dataLen);

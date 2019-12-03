@@ -20,8 +20,8 @@ namespace mars {
         
         typedef enum _CmdID {
             CmdID_Connect = 10,
-            CmdID_Publish = 11,
-            CmdID_PullMsg = 12,
+            CmdID_PullMsg = 11,
+            CmdID_Publish = 12,
         } CmdID;
 
 
@@ -40,7 +40,6 @@ namespace mars {
             PINGREQ     = 12,
             PINGRESP    = 13,
             DISCONNECT  = 14,
-            NONE        = 99,
         } MqttCmd;
         
         typedef enum _CmdQos {
@@ -98,7 +97,7 @@ namespace mars {
             
         private:
             unsigned char calculateCheckSum(size_t code, size_t len, unsigned int* count, AutoBuffer &pack);
-            int decodedLength(unsigned char headerCode, unsigned char checksum);
+            int decodedLength(unsigned char headerCode, unsigned char checksum, unsigned int* msgLen);
 
         protected:
             void writeUTF8(const char* str);
@@ -112,12 +111,14 @@ namespace mars {
             void seekStart() {
                 payload_.Seek(0, AutoBuffer::ESeekStart);
             }
+            unsigned int readInt();
             char* readUTF8();
             unsigned char readByte();
             unsigned long long readLong();
+            unsigned char* readData(unsigned int msgLen);
             size_t payloadLength() {return payload_.Length();};
             virtual size_t encodeMessage() = 0;
-            virtual void decodeMessage() = 0;
+            virtual void decodeMessage(unsigned int msgLen) = 0;
             
         public:
             AbstractCommand(MqttCmd cmdid, CmdQos qos = QOS_AT_MOST_ONCE, CmdRetain retain = RETAIN_NO);

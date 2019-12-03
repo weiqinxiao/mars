@@ -14,6 +14,7 @@
 #include "PublishCommand.hpp"
 #include "PullMessageTask.hpp"
 #include "ConnectivityLogic.hpp"
+#include "QueryCommand.hpp"
 
 namespace mars {
     namespace stn {
@@ -43,7 +44,7 @@ namespace mars {
         }
         
         std::vector<std::string> StnCallBack::OnNewDns(const std::string& _host) {
-            xinfo2(TSF"OnNewDns: %_", _host);
+            xinfo2(TSF"dns: %_", _host);
             std::vector<std::string> vector;
             vector.push_back(_host);
             return vector;//TODO
@@ -54,27 +55,36 @@ namespace mars {
         }
         
         bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffer& _outbuffer, AutoBuffer& _extend, int& _error_code, const int _channel_select, const std::string& host) {
-            xinfo2(TSF"[wei] taskid = %_, channel = %_", _taskid, _channel_select);
-            if (_taskid == TaskID_PullMsg) {
+            if (_taskid == TaskID::TaskID_PullMsg) {
                 PullMessageTask *pullTask = (PullMessageTask *)_user_context;
                 pullTask->encodeMessage(ConnectivityLogic::Instance()->getPBEnv());
                 _outbuffer.Write(pullTask->getData(), pullTask->getDataLen());
                 _extend.Write(pullTask->getTopic());
+                xinfo2(TSF"[wei] taskid = TaskID_PullMsg, topic = %_", pullTask->getTopic());
             }
             return true;
         }
         
         int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const AutoBuffer& _inbuffer, const AutoBuffer& _extend, int& _error_code, const int _channel_select) {
             xinfo2(TSF"[wei] _taskid = %_, channel = %_", _taskid, _channel_select);
-
+            if (_taskid == TaskID::TaskID_PullMsg) {
+                PullMessageTask *pullTask = (PullMessageTask *)_user_context;
+                pullTask->decodeMessage(ConnectivityLogic::Instance()->getPBEnv(), (unsigned char*)_inbuffer.Ptr(), _inbuffer.Length());
+                ConnectivityLogic::Instance()->updateSyncTime(pullTask->getLastSentTime(), pullTask->getLastReceiveTime());
+                if (!pullTask->isFinishPull()) {
+                    PullMessageTask *task = new PullMessageTask(ConnectivityLogic::Instance()->getLastSentTime(), ConnectivityLogic::Instance()->getLastReceiveTime());
+                    mars::stn::StartTask(*task);
+                    xinfo2(TSF"[wei] start PullMessageTask");
+                }
+            }
             return 0;
         }
         
         int StnCallBack::OnTaskEnd(uint32_t _taskid, void* const _user_context, int _error_type, int _error_code) {
-            xinfo2(TSF"[wei] OnTaskEnd: %_, %_, %_", _taskid, _error_code, _error_type);
             if (_user_context) {
-                if(((Task*)_user_context)->cmdid == CmdID_Publish) {
-                    ProtoTask *task = (ProtoTask*)_user_context;
+                if(_taskid == TaskID::TaskID_PullMsg) {
+                    xinfo2(TSF"[wei] delete task: TaskID_PullMsg");
+                    PullMessageTask *task = (PullMessageTask*)_user_context;
                     delete task;
                 }
             }
@@ -82,7 +92,7 @@ namespace mars {
         }
         
         void StnCallBack::ReportConnectStatus(int _status, int longlink_status) {
-            xinfo2(TSF"[wei] ReportConnectStatus: %_, %_", _status, longlink_status);
+            xinfo2(TSF"[wei] connection status changed: %_, %_", _status, longlink_status);
             listener_->onConnectionStatusChanged(longlink_status);            
         }
         
@@ -98,10 +108,10 @@ namespace mars {
         bool StnCallBack::OnLonglinkIdentifyResponse(const AutoBuffer& _response_buffer, const AutoBuffer& _identify_buffer_hash) {
             unsigned char flag = ((unsigned char*)_response_buffer.Ptr())[0];
             mars::stn::CmdHeader header(flag);
-            bool accpted = ConnectivityLogic::Instance()->onConnectCallBack(header, _response_buffer);
+            bool accpted = ConnectivityLogic::Instance()->onConnectAck(header, _response_buffer);
             xinfo2(TSF"[wei] accpted = %_", accpted);
             if (accpted) {
-                PullMessageTask *task = new PullMessageTask();
+                PullMessageTask *task = new PullMessageTask(ConnectivityLogic::Instance()->getLastSentTime(), ConnectivityLogic::Instance()->getLastReceiveTime());
                 mars::stn::StartTask(*task);
                 xinfo2(TSF"[wei] start PullMessageTask");
             } else {

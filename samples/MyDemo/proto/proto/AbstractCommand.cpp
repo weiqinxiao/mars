@@ -23,12 +23,11 @@ namespace mars {
                 }
                 code = code ^ b;
                 pack.Write(b);
-                xinfo2(TSF"encode: b=%_", (int)b);
             } while (msgLen > 0);
             return code;
         }
         
-        int AbstractCommand::decodedLength(unsigned char headerCode, unsigned char checksum) {
+        int AbstractCommand::decodedLength(unsigned char headerCode, unsigned char checksum, unsigned int* msgLen) {
             int digit;
             int msgLength = 0;
             int multiplier = 1;
@@ -40,8 +39,8 @@ namespace mars {
                 code = code ^ digit;
                 msgLength += (digit & 0x7f) * multiplier;
                 multiplier *= 128;
-                xinfo2(TSF"decode: b=%_", (int)digit);
-            } while ((digit&0x80)>0);
+            } while ((digit&0x80) > 0);
+            (*msgLen) = msgLength;
             return 2 + lengthSize;
         }
 
@@ -73,7 +72,6 @@ namespace mars {
             unsigned char headerCode = header_.encode();
             pack.Write(headerCode);
             unsigned char checkSum = calculateCheckSum(headerCode, msgLen, &count, pack);
-            
             ((unsigned char *)pack.Ptr())[1] = checkSum;
             pack.Write(payload_);
             obfuscation((unsigned char*)pack.Ptr(), 2 + count, pack.Length());
@@ -84,9 +82,11 @@ namespace mars {
             seekStart();
             unsigned char headerCode = readByte();
             unsigned char checksum = readByte();
-            int len = decodedLength(headerCode, checksum);
-            obfuscation((unsigned char*)payload_.Ptr(), len, payloadLength());
-            decodeMessage();
+            unsigned int msgLen = 0;
+            int lengthSize = decodedLength(headerCode, checksum, &msgLen);
+            xinfo2(TSF"decoded: lengthSize = %_, msgLen = %_, total = %_", lengthSize, msgLen, payloadLength());
+            obfuscation((unsigned char*)payload_.Ptr(), lengthSize, payloadLength());
+            decodeMessage(msgLen);
         }
 
         
@@ -141,6 +141,17 @@ namespace mars {
             return sz;
         }
         
+        unsigned int AbstractCommand::readInt() {
+            int flag[4] = {0};
+            payload_.Read(flag, 4);
+            return ((flag[0] << 24) + (flag[1] << 16) + (flag[2] << 8) + (flag[3] << 0));
+        }
         
+        unsigned char* AbstractCommand::readData(unsigned int msgLen) {
+            unsigned char* data = (unsigned char*)malloc(msgLen);
+            memset(data, 0, msgLen);
+            payload_.Read(data, msgLen);
+            return data;
+        }
     }
 }

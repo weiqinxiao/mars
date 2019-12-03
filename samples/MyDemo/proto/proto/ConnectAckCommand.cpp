@@ -13,7 +13,7 @@ namespace mars {
         ConnectAckCommand::ConnectAckCommand(const CmdHeader header):AbstractCommand(header), userID_(NULL), sessionID_(NULL) {
         }
         
-        void ConnectAckCommand::decodeMessage() {
+        void ConnectAckCommand::decodeMessage(unsigned int msgLen) {
             readByte();//ignore checksum
             int state = readByte();
             state_ = ConnectionStatus(state);

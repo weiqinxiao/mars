@@ -42,7 +42,7 @@ namespace mars {
             ~ConnectAckCommand();
             
             size_t encodeMessage() {return 0;};
-            void decodeMessage();
+            void decodeMessage(unsigned int msgLen);
             
             ConnectionStatus getStatus() {
                 return state_;

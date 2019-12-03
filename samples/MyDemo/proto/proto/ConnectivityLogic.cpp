@@ -13,6 +13,7 @@
 #include "PublishCommand.hpp"
 #include "pbdata.h"
 #include "PingReqCommand.hpp"
+#include "QueryCommand.hpp"
 
 namespace mars {
     namespace stn {
@@ -72,33 +73,34 @@ namespace mars {
             mars::baseevent::OnForeground(true);
         }
 
-        void ConnectivityLogic::doConnect(AutoBuffer &pack) {
+        void ConnectivityLogic::sendConnect(AutoBuffer &pack) {
             xinfo2(TSF"[wei] connect server: appKey = %_", appKey_);
             ConnectCommand cmd(appKey_.c_str(), token_.c_str(), deviceID_.c_str(), appName_.c_str(), userAgent_.c_str());
             cmd.encode(pack);
         }
         
-        void ConnectivityLogic::doPing(AutoBuffer &pack) {
+        void ConnectivityLogic::sendPing(AutoBuffer &pack) {
             xinfo2(TSF"[wei] send ping");
             PingReqCommand cmd;
             cmd.encode(pack);
         }
-        
-        void ConnectivityLogic::doPong() {
-            xinfo2(TSF"[wei] rcv pong");
-        }
 
-        void ConnectivityLogic::pullMessage(const char* topic, const unsigned char* data, const size_t dataLen, AutoBuffer& pack) {
+        void ConnectivityLogic::sendSyncMessage(const char* topic, const unsigned char* data, const size_t dataLen, AutoBuffer& pack) {
             xinfo2(TSF"[wei] send pull message, topic = %_", topic);
-            PublishCommand cmd(pullMsgID_, topic, data, dataLen);
+            QueryCommand cmd(pullMsgID_, topic, data, dataLen);
             cmd.encode(pack);
             pullMsgID_++;
             if (pullMsgID_ == 65535) pullMsgID_ = 1;
         }
         
-        bool ConnectivityLogic::onConnectCallBack(const CmdHeader header, const AutoBuffer &pack) {
+        void ConnectivityLogic::updateSyncTime(long sentTime, long receiveTime) {
+            lastReceiveTime_ = receiveTime;
+            lastSentTime_ = sentTime;
+        }
+        
+        bool ConnectivityLogic::onConnectAck(const CmdHeader header, const AutoBuffer &packed) {
             ConnectAckCommand *cmd = new ConnectAckCommand(header);
-            cmd->decode(pack);
+            cmd->decode(packed);
             ConnectionStatus state = cmd->getStatus();
             const char* userID = cmd->getUserID();
             if (cmd) delete cmd;

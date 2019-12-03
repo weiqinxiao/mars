@@ -21,7 +21,7 @@ namespace mars {
             
             size_t encodeMessage(){return 0;};
             
-            void decodeMessage(){};
+            void decodeMessage(unsigned int msgLen){};
             
             void encode(AutoBuffer& pack);
         };
@@ -33,7 +33,7 @@ namespace mars {
             
             size_t encodeMessage(){return 0;};
             
-            void decodeMessage(){};//no body to decode
+            void decodeMessage(unsigned int msgLen){};//no body to decode
         };
     }
 }

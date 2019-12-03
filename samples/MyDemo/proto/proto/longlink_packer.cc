@@ -31,6 +31,8 @@
 #include "mars/stn/stn.h"
 #include "ConnectivityLogic.hpp"
 #include "AbstractCommand.hpp"
+#include "ProtoTask.hpp"
+#include "QueryCommand.hpp"
 
 static uint32_t sg_client_version = 0;
 
@@ -62,18 +64,18 @@ namespace mars {
         
         void (*longlink_pack)(uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker)
         = [](uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker) {
-            xinfo2(TSF"[wei] pack cmdid = %_, seq = %_", _cmdid, _seq);
             switch (_cmdid) {
                 case CmdID_Connect:
-                    ConnectivityLogic::Instance()->doConnect(_packed);
+                    xinfo2(TSF"[wei] pack cmdid = CmdID_Connect, seq = %_", _seq);
+                    ConnectivityLogic::Instance()->sendConnect(_packed);
                     break;
                 case NOOP_CMDID:
-                    ConnectivityLogic::Instance()->doPing(_packed);
+                    xinfo2(TSF"[wei] pack cmdid = NOOP_CMDID, seq = %_", _seq);
+                    ConnectivityLogic::Instance()->sendPing(_packed);
                     break;
-                case CmdID_Publish:
-                    std::string topic;
-                    memcpy(&topic, _extension.Ptr(), _extension.Length());
-                    ConnectivityLogic::Instance()->pullMessage(topic.c_str(), (unsigned char*)_body.Ptr(), _body.Length(), _packed);
+                case CmdID_PullMsg:
+                    xinfo2(TSF"[wei] pack cmdid = CmdID_PullMsg, seq = %_", _seq);
+                    ConnectivityLogic::Instance()->sendSyncMessage((const char*)(_extension.Ptr()), (unsigned char*)_body.Ptr(), _body.Length(), _packed);
                     break;
             }
 
@@ -84,32 +86,37 @@ namespace mars {
         int (*longlink_unpack)(const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension, longlink_tracker* _tracker)
         = [](const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension, longlink_tracker* _tracker) {
             size_t len = _packed.Length();
-            if (_packed.Length() < 2) {
+            if (len < 2) {
                 xwarn2(TSF"unpack: size less 2, %_", len);
                 return LONGLINK_UNPACK_CONTINUE;
             }
             unsigned char flag = ((unsigned char*)_packed.Ptr())[0];
             mars::stn::CmdHeader header(flag);
-            xinfo2(TSF"[wei] unpack: mqttcmd = %_, rcvLen = %_", header.mqttcmd, _packed.Length());
             switch (header.mqttcmd) {
                 case CONNACK:
                     _body.Write(_packed);
-                    _package_len = _packed.Length();
+                    _package_len = len;
                     _cmdid = CmdID_Connect;
                     _seq = Task::kLongLinkIdentifyCheckerTaskID;
+                    xinfo2(TSF"[wei] unpack CONNACK, _package_len = %_", _package_len);
                     break;
                 case PUBACK:
                     break;
-                case QUERYACK:
-                    _cmdid = CmdID_PullMsg;
-                    _package_len = _packed.Length();
-                    _seq = 0;
-                    break;
                 case PINGRESP:
-                    ConnectivityLogic::Instance()->doPong();
-                    _package_len = _packed.Length();
+                    xinfo2(TSF"[wei] unpack rcv pong");
+                    _package_len = len;
                     _cmdid = NOOP_CMDID;
                     _seq = Task::kNoopTaskID;
+                    xinfo2(TSF"[wei] unpack PINGRESP, _package_len = %_", _package_len);
+                    break;
+                case QUERYACK:
+                    _cmdid = CmdID_PullMsg;
+                    _package_len = len;
+                    _seq = TaskID::TaskID_PullMsg;
+                    xinfo2(TSF"[wei] unpack QUERYACK, _package_len = %_", _package_len);
+                    QueryAckCommand cmd(header);
+                    cmd.decode(_packed);
+                    _body.Write(cmd.getData(), cmd.getDataLength());
                     break;
             }
             

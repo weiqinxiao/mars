@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		600507FA2395FD3B00EEB1C7 /* QueryCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 600507F82395FD3B00EEB1C7 /* QueryCommand.cpp */; };
 		60195730237E7D1F007AA4BB /* ConnectivityLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6019572E237E7D1F007AA4BB /* ConnectivityLogic.cpp */; };
 		60195733237E833C007AA4BB /* AbstractCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60195731237E833C007AA4BB /* AbstractCommand.cpp */; };
 		60195736237EA2F4007AA4BB /* ConnectCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60195734237EA2F4007AA4BB /* ConnectCommand.cpp */; };
@@ -48,6 +49,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		600507F82395FD3B00EEB1C7 /* QueryCommand.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = QueryCommand.cpp; sourceTree = "<group>"; };
+		600507F92395FD3B00EEB1C7 /* QueryCommand.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QueryCommand.hpp; sourceTree = "<group>"; };
 		6019572E237E7D1F007AA4BB /* ConnectivityLogic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConnectivityLogic.cpp; sourceTree = "<group>"; };
 		6019572F237E7D1F007AA4BB /* ConnectivityLogic.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ConnectivityLogic.hpp; sourceTree = "<group>"; };
 		60195731237E833C007AA4BB /* AbstractCommand.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AbstractCommand.cpp; sourceTree = "<group>"; };
@@ -200,6 +203,8 @@
 				604063E6238E19D500F52FD8 /* ProtoTask.hpp */,
 				604063EB238E74DB00F52FD8 /* PingReqCommand.cpp */,
 				604063EC238E74DB00F52FD8 /* PingReqCommand.hpp */,
+				600507F82395FD3B00EEB1C7 /* QueryCommand.cpp */,
+				600507F92395FD3B00EEB1C7 /* QueryCommand.hpp */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -296,6 +301,7 @@
 				604063D4238D2F5E00F52FD8 /* rmessage.c in Sources */,
 				604063D6238D2F5E00F52FD8 /* decode.c in Sources */,
 				60195730237E7D1F007AA4BB /* ConnectivityLogic.cpp in Sources */,
+				600507FA2395FD3B00EEB1C7 /* QueryCommand.cpp in Sources */,
 				604063D5238D2F5E00F52FD8 /* register.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

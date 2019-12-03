@@ -32,9 +32,5 @@ namespace mars {
             writeUTF8(token_);
             return payloadLength();
         }
-        
-        void ConnectCommand::decodeMessage() {
-            
-        }
     }
 }

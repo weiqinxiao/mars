@@ -60,6 +60,8 @@ namespace mars {
             uint16_t port_;
             pbc_env *pbEnv_;
             unsigned short pullMsgID_;
+            long lastSentTime_;
+            long lastReceiveTime_;
             
         public:
             static ConnectivityLogic *Instance();
@@ -90,15 +92,23 @@ namespace mars {
                 return connectionState_;
             }
             
-            void doConnect(AutoBuffer &pack);
-            void doPing(AutoBuffer &pack);
-            void doPong();
-            void pullMessage(const char* topic, const unsigned char* data, const size_t dataLen, AutoBuffer& pack);
+            void sendConnect(AutoBuffer &pack);
+            void sendPing(AutoBuffer &pack);
+            void sendSyncMessage(const char* topic, const unsigned char* data, const size_t dataLen, AutoBuffer& pack);
+            void updateSyncTime(long sentTime, long receiveTime);
             
-            bool onConnectCallBack(const CmdHeader header, const AutoBuffer &pack);
+            bool onConnectAck(const CmdHeader header, const AutoBuffer &packed);
             
             pbc_env *getPBEnv() {
                 return pbEnv_;
+            }
+            
+            long getLastSentTime() {
+                return lastSentTime_;
+            }
+            
+            long getLastReceiveTime() {
+                return lastReceiveTime_;
             }
         };
     }

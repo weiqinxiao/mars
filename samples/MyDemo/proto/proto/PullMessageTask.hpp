@@ -17,10 +17,31 @@ namespace mars {
     namespace stn {
         class PullMessageTask : public ProtoTask {
         private:
+            std::vector<MessageContent*> msgList;
+            bool finishPull_;
             
         public:
-            PullMessageTask();
+            PullMessageTask(long lastSentTime, long lastRcvTime);
+            ~PullMessageTask() {
+                for (int i = msgList.size(); i > 0; i--) {
+                    delete msgList[i];
+                }
+                msgList.clear();
+            }
             void encodeMessage(pbc_env *env);
+            void decodeMessage(pbc_env *env, unsigned char* data, size_t dataLen);
+            
+            long getLastSentTime() {
+                return lastSentTime_;
+            }
+            
+            long getLastReceiveTime() {
+                return lastRcvTime_;
+            }
+            
+            bool isFinishPull() {
+                return finishPull_;
+            }
         };
     }
 }
