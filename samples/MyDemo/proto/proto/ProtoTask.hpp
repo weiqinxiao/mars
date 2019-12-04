@@ -33,7 +33,7 @@ namespace mars {
         
         enum TaskID {
             TaskID_PullMsg = 0x10,
-            
+            TaskID_PublishMsg = 0x11,
         };
         
         enum MessageDirection {
@@ -61,6 +61,8 @@ namespace mars {
             
             std::string          m_RRReqInfo;
             std::string          m_Source;
+            
+            ~MessageContent(){};
         };
         
         class ProtoTask : public Task {
@@ -75,10 +77,10 @@ namespace mars {
             long lastRcvTime_;
             
         protected:
-            MessageContent* decodeMessageContent(pbc_rmessage *message);
+            MessageContent decodeMessageContent(pbc_rmessage *message);
             
         public:
-            ProtoTask(TaskID cmdID, std::string topic);
+            ProtoTask(TaskID taskID, std::string topic);
             
             ~ProtoTask() {
                 if (pbMsg_) {

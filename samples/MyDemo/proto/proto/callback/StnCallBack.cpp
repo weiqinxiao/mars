@@ -15,6 +15,7 @@
 #include "PullMessageTask.hpp"
 #include "ConnectivityLogic.hpp"
 #include "QueryCommand.hpp"
+#include "MessageTopic.h"
 
 namespace mars {
     namespace stn {
@@ -52,6 +53,15 @@ namespace mars {
         
         void StnCallBack::OnPush(uint64_t _channel_id, uint32_t _cmdid, uint32_t _taskid, const AutoBuffer& _body, const AutoBuffer& _extend) {
             xinfo2(TSF"[wei] _cmdid = %_, taskId = %_", _cmdid, _taskid);
+            if (_cmdid == CmdID_Notify) {
+                char* topic = (char*)(_body.Ptr());
+                std::string str(Topic_notify);
+                if (topic == str) {
+                    PullMessageTask *task = new PullMessageTask(ConnectivityLogic::Instance()->getLastSentTime(), ConnectivityLogic::Instance()->getLastReceiveTime());
+                    mars::stn::StartTask(*task);
+                    xinfo2(TSF"[wei] start task TaskID_PullMsg");
+                }
+            }
         }
         
         bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffer& _outbuffer, AutoBuffer& _extend, int& _error_code, const int _channel_select, const std::string& host) {
@@ -113,7 +123,7 @@ namespace mars {
             if (accpted) {
                 PullMessageTask *task = new PullMessageTask(ConnectivityLogic::Instance()->getLastSentTime(), ConnectivityLogic::Instance()->getLastReceiveTime());
                 mars::stn::StartTask(*task);
-                xinfo2(TSF"[wei] start PullMessageTask");
+                xinfo2(TSF"[wei] start task TaskID_PullMsg");
             } else {
                 
             }

@@ -48,6 +48,9 @@ namespace mars {
             
         public:
             QueryAckCommand(CmdHeader header);
+            ~QueryAckCommand() {
+                if (data_) delete data_;
+            }
             
             unsigned char * getData() {
                 return data_;

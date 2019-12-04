@@ -18,10 +18,12 @@ namespace mars {
         private:
             const char *topic_;
             const char *targetID_;
-            const long long signature_;
+            const char *uuid_;
+            unsigned long long signature_;
+            int date_;
             const unsigned char *data_;
-            const unsigned short msgID_;
-            const size_t dataLen_;
+            unsigned short msgID_;
+            int dataLen_;
             
         protected:
             size_t encodeMessage();
@@ -29,7 +31,32 @@ namespace mars {
             void decodeMessage(unsigned int msgLen);
             
         public:
-            PublishCommand(const unsigned short msgID, const char *topic, const unsigned char *data, const size_t dataLen);
+            PublishCommand(const unsigned short msgID, const char *topic, const unsigned char *data, const int dataLen);
+            PublishCommand(CmdHeader header);
+            ~PublishCommand();
+            
+            const unsigned char* getData() {
+                return data_;
+            }
+            
+            const int getDataLength() {
+                return dataLen_;
+            }
+            
+            const char* getTopic() {
+                return topic_;
+            }
+        };
+        
+        class PublishAckCommand : public AbstractCommand {
+        public:
+            PublishAckCommand();
+            size_t encodeMessage() {
+                return 0;
+            };
+            
+            void decodeMessage(unsigned int msgLen) {};
+            
         };
     }
 }

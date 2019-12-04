@@ -53,11 +53,13 @@ namespace mars {
             unsigned int low = pbc_rmessage_integer(msg, "syncTime", 0, &high);
             lastRcvTime_ = ((int64_t)high << 32) + low;
             int msgCount = pbc_rmessage_size(msg, "list");
+            xinfo2(TSF"[wei] decode dataLen = %_, msgSize = %_", dataLen, msgCount);
+
             finishPull_ = (1 == pbc_rmessage_integer(msg, "hasMsg", 0, NULL));
             
             for (int i = 0; i < msgCount; i++) {
                 pbc_rmessage *pbMsg = pbc_rmessage_message(msg, "list", i);
-                MessageContent *content = decodeMessageContent(pbMsg);
+                MessageContent content = decodeMessageContent(pbMsg);
                 msgList.push_back(content);
             }
             pbc_rmessage_delete(msg);

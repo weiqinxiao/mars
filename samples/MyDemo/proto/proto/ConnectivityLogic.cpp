@@ -33,6 +33,8 @@ namespace mars {
             slice.buffer = (void*)pbdata;
             pbEnv_ = pbc_new();
             pbc_register(pbEnv_, &slice);
+            lastSentTime_ = 0;
+            lastReceiveTime_ = 0;
         }
         
         void ConnectivityLogic::onConnectionStatusChanged(int state) {
@@ -85,7 +87,7 @@ namespace mars {
             cmd.encode(pack);
         }
 
-        void ConnectivityLogic::sendSyncMessage(const char* topic, const unsigned char* data, const size_t dataLen, AutoBuffer& pack) {
+        void ConnectivityLogic::pullMessage(const char* topic, const unsigned char* data, const size_t dataLen, AutoBuffer& pack) {
             xinfo2(TSF"[wei] send pull message, topic = %_", topic);
             QueryCommand cmd(pullMsgID_, topic, data, dataLen);
             cmd.encode(pack);
@@ -94,6 +96,7 @@ namespace mars {
         }
         
         void ConnectivityLogic::updateSyncTime(long sentTime, long receiveTime) {
+            xinfo2(TSF"[wei] sync time: sentTime = %_, receiveTime = %_", sentTime, receiveTime);
             lastReceiveTime_ = receiveTime;
             lastSentTime_ = sentTime;
         }

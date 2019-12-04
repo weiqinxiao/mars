@@ -12,21 +12,18 @@
 #include <stdio.h>
 #include "pbc/pbc.h"
 #include "ProtoTask.hpp"
+#include <list>
 
 namespace mars {
     namespace stn {
         class PullMessageTask : public ProtoTask {
         private:
-            std::vector<MessageContent*> msgList;
+            std::list<MessageContent> msgList;
             bool finishPull_;
             
         public:
             PullMessageTask(long lastSentTime, long lastRcvTime);
             ~PullMessageTask() {
-                for (int i = msgList.size(); i > 0; i--) {
-                    delete msgList[i];
-                }
-                msgList.clear();
             }
             void encodeMessage(pbc_env *env);
             void decodeMessage(pbc_env *env, unsigned char* data, size_t dataLen);

@@ -33,6 +33,7 @@
 #include "AbstractCommand.hpp"
 #include "ProtoTask.hpp"
 #include "QueryCommand.hpp"
+#include "PublishCommand.hpp"
 
 static uint32_t sg_client_version = 0;
 
@@ -75,7 +76,7 @@ namespace mars {
                     break;
                 case CmdID_PullMsg:
                     xinfo2(TSF"[wei] pack cmdid = CmdID_PullMsg, seq = %_", _seq);
-                    ConnectivityLogic::Instance()->sendSyncMessage((const char*)(_extension.Ptr()), (unsigned char*)_body.Ptr(), _body.Length(), _packed);
+                    ConnectivityLogic::Instance()->pullMessage((const char*)(_extension.Ptr()), (unsigned char*)_body.Ptr(), _body.Length(), _packed);
                     break;
             }
 
@@ -90,33 +91,50 @@ namespace mars {
                 xwarn2(TSF"unpack: size less 2, %_", len);
                 return LONGLINK_UNPACK_CONTINUE;
             }
-            unsigned char flag = ((unsigned char*)_packed.Ptr())[0];
-            mars::stn::CmdHeader header(flag);
+            mars::stn::CmdHeader header(((unsigned char*)_packed.Ptr())[0]);
             switch (header.mqttcmd) {
-                case CONNACK:
-                    _body.Write(_packed);
-                    _package_len = len;
-                    _cmdid = CmdID_Connect;
-                    _seq = Task::kLongLinkIdentifyCheckerTaskID;
-                    xinfo2(TSF"[wei] unpack CONNACK, _package_len = %_", _package_len);
-                    break;
-                case PUBACK:
-                    break;
                 case PINGRESP:
+                {
                     xinfo2(TSF"[wei] unpack rcv pong");
                     _package_len = len;
                     _cmdid = NOOP_CMDID;
                     _seq = Task::kNoopTaskID;
                     xinfo2(TSF"[wei] unpack PINGRESP, _package_len = %_", _package_len);
+                        
+                }
+                    break;
+                case CONNACK:
+                {
+                    _body.Write(_packed);
+                    _package_len = len;
+                    _cmdid = CmdID_Connect;
+                    _seq = Task::kLongLinkIdentifyCheckerTaskID;
+                    xinfo2(TSF"[wei] unpack CONNACK, _package_len = %_", _package_len);
+                }
+                    break;
+                case PUBLISH:
+                {
+                    xinfo2(TSF"[wei] unpack rcv PUBLISH");
+                    _cmdid = CmdID_Notify;
+                    _package_len = len;
+                    PublishCommand pubCmd(header);
+                    pubCmd.decode(_packed);
+                    _seq = PUSH_DATA_TASKID;
+                    _body.Write(pubCmd.getTopic());
+                }
                     break;
                 case QUERYACK:
+                {
                     _cmdid = CmdID_PullMsg;
                     _package_len = len;
                     _seq = TaskID::TaskID_PullMsg;
                     xinfo2(TSF"[wei] unpack QUERYACK, _package_len = %_", _package_len);
-                    QueryAckCommand cmd(header);
-                    cmd.decode(_packed);
-                    _body.Write(cmd.getData(), cmd.getDataLength());
+                    QueryAckCommand qryAckCmd(header);
+                    qryAckCmd.decode(_packed);
+                    _body.Write(qryAckCmd.getData(), qryAckCmd.getDataLength());
+                }
+                    break;
+                default:
                     break;
             }
             

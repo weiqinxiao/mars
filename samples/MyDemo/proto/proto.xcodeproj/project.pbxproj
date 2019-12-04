@@ -29,6 +29,7 @@
 		604063E2238D347000F52FD8 /* PullMessageTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604063E0238D347000F52FD8 /* PullMessageTask.cpp */; };
 		604063E8238E226700F52FD8 /* ProtoTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604063E5238E19D500F52FD8 /* ProtoTask.cpp */; };
 		604063ED238E74DB00F52FD8 /* PingReqCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604063EB238E74DB00F52FD8 /* PingReqCommand.cpp */; };
+		604F2D4323976A0A007573B1 /* PublishMessageTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604F2D4123976A0A007573B1 /* PublishMessageTask.cpp */; };
 		60755B67237D449D006D1A5D /* AppCallBack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60755B65237D449D006D1A5D /* AppCallBack.cpp */; };
 		60755B6B237D5546006D1A5D /* ProtoClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60755B69237D5546006D1A5D /* ProtoClient.cpp */; };
 		60755C11237E446E006D1A5D /* longlink_packer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 60755C0F237E446E006D1A5D /* longlink_packer.cc */; };
@@ -94,6 +95,8 @@
 		604063E6238E19D500F52FD8 /* ProtoTask.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProtoTask.hpp; sourceTree = "<group>"; };
 		604063EB238E74DB00F52FD8 /* PingReqCommand.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PingReqCommand.cpp; sourceTree = "<group>"; };
 		604063EC238E74DB00F52FD8 /* PingReqCommand.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PingReqCommand.hpp; sourceTree = "<group>"; };
+		604F2D4123976A0A007573B1 /* PublishMessageTask.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PublishMessageTask.cpp; sourceTree = "<group>"; };
+		604F2D4223976A0A007573B1 /* PublishMessageTask.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PublishMessageTask.hpp; sourceTree = "<group>"; };
 		60755B53237D43B7006D1A5D /* libproto.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libproto.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		60755B65237D449D006D1A5D /* AppCallBack.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AppCallBack.cpp; sourceTree = "<group>"; };
 		60755B66237D449D006D1A5D /* AppCallBack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCallBack.h; sourceTree = "<group>"; };
@@ -205,6 +208,8 @@
 				604063EC238E74DB00F52FD8 /* PingReqCommand.hpp */,
 				600507F82395FD3B00EEB1C7 /* QueryCommand.cpp */,
 				600507F92395FD3B00EEB1C7 /* QueryCommand.hpp */,
+				604F2D4123976A0A007573B1 /* PublishMessageTask.cpp */,
+				604F2D4223976A0A007573B1 /* PublishMessageTask.hpp */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -286,6 +291,7 @@
 				60195764238CFE81007AA4BB /* PublishCommand.cpp in Sources */,
 				604063DE238D2F5E00F52FD8 /* pattern.c in Sources */,
 				604063D9238D2F5E00F52FD8 /* varint.c in Sources */,
+				604F2D4323976A0A007573B1 /* PublishMessageTask.cpp in Sources */,
 				604063DB238D2F5E00F52FD8 /* proto.c in Sources */,
 				604063D3238D2F5E00F52FD8 /* array.c in Sources */,
 				604063DC238D2F5E00F52FD8 /* context.c in Sources */,

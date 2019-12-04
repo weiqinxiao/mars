@@ -94,7 +94,7 @@ namespace mars {
             
             void sendConnect(AutoBuffer &pack);
             void sendPing(AutoBuffer &pack);
-            void sendSyncMessage(const char* topic, const unsigned char* data, const size_t dataLen, AutoBuffer& pack);
+            void pullMessage(const char* topic, const unsigned char* data, const size_t dataLen, AutoBuffer& pack);
             void updateSyncTime(long sentTime, long receiveTime);
             
             bool onConnectAck(const CmdHeader header, const AutoBuffer &packed);

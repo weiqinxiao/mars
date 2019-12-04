@@ -14,6 +14,7 @@ namespace mars {
         
 #define Topic_pullMsg "pullMsg"
 #define Topic_ppMsg "ppMsg"
+#define Topic_notify "s_ntf"
         
     }
 }

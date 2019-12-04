@@ -22,6 +22,7 @@ namespace mars {
             CmdID_Connect = 10,
             CmdID_PullMsg = 11,
             CmdID_Publish = 12,
+            CmdID_Notify = 13,
         } CmdID;
 
 
