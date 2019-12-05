@@ -13,7 +13,9 @@ namespace mars {
     namespace stn {
         
 #define Topic_pullMsg "pullMsg"
-#define Topic_ppMsg "ppMsg"
+#define Topic_prvtMsg "ppMsgP"
+#define Topic_grpMsg "pgMsgP"
+#define Topic_chrMsg "chatMsg"//chatroom
 #define Topic_notify "s_ntf"
         
     }

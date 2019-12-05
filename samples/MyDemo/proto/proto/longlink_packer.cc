@@ -67,17 +67,28 @@ namespace mars {
         = [](uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker) {
             switch (_cmdid) {
                 case CmdID_Connect:
+                {
                     xinfo2(TSF"[wei] pack cmdid = CmdID_Connect, seq = %_", _seq);
                     ConnectivityLogic::Instance()->sendConnect(_packed);
                     break;
+                }
                 case NOOP_CMDID:
+                {
                     xinfo2(TSF"[wei] pack cmdid = NOOP_CMDID, seq = %_", _seq);
                     ConnectivityLogic::Instance()->sendPing(_packed);
                     break;
+                }
                 case CmdID_PullMsg:
+                {
                     xinfo2(TSF"[wei] pack cmdid = CmdID_PullMsg, seq = %_", _seq);
                     ConnectivityLogic::Instance()->pullMessage((const char*)(_extension.Ptr()), (unsigned char*)_body.Ptr(), _body.Length(), _packed);
                     break;
+                }
+                case CmdID_Publish:
+                {
+                    ConnectivityLogic::Instance()->publishMessage((unsigned char*)_body.Ptr(), _body.Length(), _packed);
+                    break;
+                }
             }
 
             _packed.Seek(0, AutoBuffer::ESeekStart);
@@ -92,48 +103,53 @@ namespace mars {
                 return LONGLINK_UNPACK_CONTINUE;
             }
             mars::stn::CmdHeader header(((unsigned char*)_packed.Ptr())[0]);
+            xinfo2(TSF"[wei] unpack: mqttcmd = %_, _package_len = %_", header.mqttcmd, len);
             switch (header.mqttcmd) {
                 case PINGRESP:
                 {
-                    xinfo2(TSF"[wei] unpack rcv pong");
                     _package_len = len;
                     _cmdid = NOOP_CMDID;
                     _seq = Task::kNoopTaskID;
-                    xinfo2(TSF"[wei] unpack PINGRESP, _package_len = %_", _package_len);
-                        
-                }
                     break;
+                }
                 case CONNACK:
                 {
                     _body.Write(_packed);
                     _package_len = len;
                     _cmdid = CmdID_Connect;
                     _seq = Task::kLongLinkIdentifyCheckerTaskID;
-                    xinfo2(TSF"[wei] unpack CONNACK, _package_len = %_", _package_len);
-                }
                     break;
+                }
                 case PUBLISH:
                 {
-                    xinfo2(TSF"[wei] unpack rcv PUBLISH");
                     _cmdid = CmdID_Notify;
                     _package_len = len;
                     PublishCommand pubCmd(header);
                     pubCmd.decode(_packed);
                     _seq = PUSH_DATA_TASKID;
-                    _body.Write(pubCmd.getTopic());
-                }
+                    _body.Write(pubCmd.getTopic().c_str());
                     break;
+                }
                 case QUERYACK:
                 {
                     _cmdid = CmdID_PullMsg;
                     _package_len = len;
                     _seq = TaskID::TaskID_PullMsg;
-                    xinfo2(TSF"[wei] unpack QUERYACK, _package_len = %_", _package_len);
                     QueryAckCommand qryAckCmd(header);
                     qryAckCmd.decode(_packed);
-                    _body.Write(qryAckCmd.getData(), qryAckCmd.getDataLength());
-                }
+                    _body.Write(qryAckCmd.getPayload(), qryAckCmd.getPayloadLength());
                     break;
+                }
+                case PUBACK:
+                {
+                    _cmdid = CmdID_Publish;
+                    _package_len = len;
+                    PublishAckCommand pubAckCmd(header);
+                    pubAckCmd.decode(_packed);
+                    _body.Write(pubAckCmd.getPayload(), pubAckCmd.getPayloadLength());
+                    _seq = TaskID::TaskID_PublishMsg;
+                    break;
+                }
                 default:
                     break;
             }

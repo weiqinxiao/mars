@@ -7,11 +7,12 @@
 //
 
 #include "AbstractCommand.hpp"
+#include "ProtoUtils.hpp"
 
 namespace mars {
     namespace stn {
         
-        unsigned char AbstractCommand::calculateCheckSum(size_t code, size_t msgLen, unsigned int* count, AutoBuffer &pack) {
+        unsigned char calculateCheckSum(size_t code, size_t msgLen, unsigned int* count, AutoBuffer &pack) {
             (*count) = 0;
             pack.Write((unsigned char)0);
             do {
@@ -91,60 +92,27 @@ namespace mars {
 
         
         void AbstractCommand::writeUTF8(const char* str) {
-            size_t len = strlen(str);
-            unsigned short w = (unsigned short)((len>>8) | ((len&0xFF)<<8));
-            payload_.Write(&w, 2);
-            payload_.Write(str, len);
+            ProtoUtils::writeUTF8(str, payload_);
         }
         
         void AbstractCommand::wirteLong(long long v) {
-            unsigned char flag[8] = {0};
-            flag[0] = (unsigned char)(v >> 56);
-            flag[1] = (unsigned char)(v >> 48);
-            flag[2] = (unsigned char)(v >> 40);
-            flag[3] = (unsigned char)(v >> 32);
-            flag[4] = (unsigned char)(v >> 24);
-            flag[5] = (unsigned char)(v >> 16);
-            flag[6] = (unsigned char)(v >>  8);
-            flag[7] = (unsigned char)(v >>  0);
-            payload_.Write(flag, 8);
+            ProtoUtils::writeLong(v, payload_);
         }
 
-        char* AbstractCommand::readUTF8() {
-            unsigned char f = readByte();
-            unsigned char s = readByte();
-            unsigned short sz = (f>>8) | s;
-            char* utf = (char*)malloc(sz + 1);
-            memset(utf, 0, sz + 1);
-            payload_.Read(utf, sz);
-            return utf;
+        std::string AbstractCommand::readUTF8() {
+            return ProtoUtils::readUTF8(payload_);
         }
         
         unsigned char AbstractCommand::readByte() {
-            unsigned char flag = 0;
-            payload_.Read(&flag, 1);
-            return flag;
+            return ProtoUtils::readByte(payload_);
         }
         
         unsigned long long AbstractCommand::readLong() {
-            unsigned char flag[8] = {0};
-            payload_.Read(flag, 8);
-            size_t sz = (((long)flag[0] << 56) +
-             ((long)(flag[1] & 255) << 48) +
-             ((long)(flag[2] & 255) << 40) +
-             ((long)(flag[3] & 255) << 32) +
-             ((long)(flag[4] & 255) << 24) +
-             ((flag[5] & 255) << 16) +
-             ((flag[6] & 255) <<  8) +
-             ((flag[7] & 255) <<  0));
-            
-            return sz;
+            return ProtoUtils::readLong(payload_);
         }
         
         unsigned int AbstractCommand::readInt() {
-            int flag[4] = {0};
-            payload_.Read(flag, 4);
-            return ((flag[0] << 24) + (flag[1] << 16) + (flag[2] << 8) + (flag[3] << 0));
+            return ProtoUtils::readInt(payload_);
         }
         
         unsigned char* AbstractCommand::readData(unsigned int msgLen) {

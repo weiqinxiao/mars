@@ -17,48 +17,21 @@ namespace mars {
     namespace stn {
         class QueryCommand : public AbstractCommand {
         private:
-            const char *topic_;
-            const char *targetID_;
-            const long long signature_;
-            const unsigned char *data_;
-            const unsigned short msgID_;
-            unsigned int dataLen_;
+            const unsigned char *_data;
+            unsigned int _dataLen;
             
         protected:
             size_t encodeMessage();
-            
-            void decodeMessage(unsigned int msgLen) {};
-            
+ 
         public:
-            QueryCommand(const unsigned short msgID, const char *topic, const unsigned char *data, const size_t dataLen);
+            QueryCommand(const unsigned char *data, const size_t dataLen);
+            
         };
         
         class QueryAckCommand : public AbstractCommand {
-        private:
-            unsigned char *data_;
-            unsigned short msgID_;
-            unsigned int dataLen_;
-            int state_;
-            int date_;
-            
-        protected:
-            size_t encodeMessage() {return 0;};
-            
-            void decodeMessage(unsigned int msgLen);
-            
+
         public:
             QueryAckCommand(CmdHeader header);
-            ~QueryAckCommand() {
-                if (data_) delete data_;
-            }
-            
-            unsigned char * getData() {
-                return data_;
-            }
-            
-            unsigned int getDataLength() {
-                return dataLen_;
-            }
         };
     }
 }

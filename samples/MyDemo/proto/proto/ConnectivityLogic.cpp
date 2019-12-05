@@ -27,14 +27,12 @@ namespace mars {
             return instance_;
         }
 
-        ConnectivityLogic::ConnectivityLogic():connectionState_(Disconnected),connectionListener_(NULL),pullMsgID_(1) {
+        ConnectivityLogic::ConnectivityLogic():connectionState_(Disconnected),connectionListener_(NULL) {
             struct pbc_slice slice;
             slice.len = sizeof(pbdata);
             slice.buffer = (void*)pbdata;
             pbEnv_ = pbc_new();
             pbc_register(pbEnv_, &slice);
-            lastSentTime_ = 0;
-            lastReceiveTime_ = 0;
         }
         
         void ConnectivityLogic::onConnectionStatusChanged(int state) {
@@ -82,23 +80,21 @@ namespace mars {
         }
         
         void ConnectivityLogic::sendPing(AutoBuffer &pack) {
-            xinfo2(TSF"[wei] send ping");
+            xinfo2(TSF"[wei] send ping command");
             PingReqCommand cmd;
             cmd.encode(pack);
         }
 
         void ConnectivityLogic::pullMessage(const char* topic, const unsigned char* data, const size_t dataLen, AutoBuffer& pack) {
-            xinfo2(TSF"[wei] send pull message, topic = %_", topic);
-            QueryCommand cmd(pullMsgID_, topic, data, dataLen);
+            xinfo2(TSF"[wei] send pull command, topic = %_", topic);
+            QueryCommand cmd(data, dataLen);
             cmd.encode(pack);
-            pullMsgID_++;
-            if (pullMsgID_ == 65535) pullMsgID_ = 1;
         }
         
-        void ConnectivityLogic::updateSyncTime(long sentTime, long receiveTime) {
-            xinfo2(TSF"[wei] sync time: sentTime = %_, receiveTime = %_", sentTime, receiveTime);
-            lastReceiveTime_ = receiveTime;
-            lastSentTime_ = sentTime;
+        void ConnectivityLogic::publishMessage(const unsigned char* data, const size_t dataLen, AutoBuffer& pack) {
+            xinfo2(TSF"[wei] send publish command: %_", dataLen);
+            PublishCommand cmd(data, dataLen);
+            cmd.encode(pack);
         }
         
         bool ConnectivityLogic::onConnectAck(const CmdHeader header, const AutoBuffer &packed) {

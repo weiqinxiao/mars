@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string>
 #include "ProtoListener.h"
+#include "ProtoTask.hpp"
 
 namespace mars {
     namespace stn {
@@ -24,7 +25,11 @@ namespace mars {
         
         extern void setConnectionListener(ConnectionStatusListener *listener);
         
+        extern void setReceiveMessageListener(ReceiveMessageListener *listener);
+        
         extern void connectServer(const std::string &userID, const std::string &token, const std::string &host, const uint16_t port);
+        
+        extern void sendMessage(ConversationType type, const std::string &targetID, const std::string & objName, const std::string &pushContent, const std::string &pushData, const std::string &msgContent, SendMessageCallBack *sendMsgCallBack);
     }
 }
 

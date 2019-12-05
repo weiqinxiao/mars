@@ -97,7 +97,6 @@ namespace mars {
             const unsigned short protoKeepAlive = 0xA;
             
         private:
-            unsigned char calculateCheckSum(size_t code, size_t len, unsigned int* count, AutoBuffer &pack);
             int decodedLength(unsigned char headerCode, unsigned char checksum, unsigned int* msgLen);
 
         protected:
@@ -113,13 +112,13 @@ namespace mars {
                 payload_.Seek(0, AutoBuffer::ESeekStart);
             }
             unsigned int readInt();
-            char* readUTF8();
+            std::string readUTF8();
             unsigned char readByte();
             unsigned long long readLong();
             unsigned char* readData(unsigned int msgLen);
             size_t payloadLength() {return payload_.Length();};
-            virtual size_t encodeMessage() = 0;
-            virtual void decodeMessage(unsigned int msgLen) = 0;
+            virtual size_t encodeMessage() {return 0;};
+            virtual void decodeMessage(unsigned int msgLen) {};
             
         public:
             AbstractCommand(MqttCmd cmdid, CmdQos qos = QOS_AT_MOST_ONCE, CmdRetain retain = RETAIN_NO);
@@ -128,6 +127,14 @@ namespace mars {
 
             void encode(AutoBuffer& pack);
             void decode(const AutoBuffer& pack);
+            
+            unsigned char* getPayload() {
+                return (unsigned char*)payload_.PosPtr();
+            }
+            
+            size_t getPayloadLength() {
+                return payload_.PosLength();
+            }
         };
     }
 }

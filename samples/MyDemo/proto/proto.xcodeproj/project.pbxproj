@@ -30,11 +30,13 @@
 		604063E8238E226700F52FD8 /* ProtoTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604063E5238E19D500F52FD8 /* ProtoTask.cpp */; };
 		604063ED238E74DB00F52FD8 /* PingReqCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604063EB238E74DB00F52FD8 /* PingReqCommand.cpp */; };
 		604F2D4323976A0A007573B1 /* PublishMessageTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604F2D4123976A0A007573B1 /* PublishMessageTask.cpp */; };
+		604F2D462397888F007573B1 /* MessageService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 604F2D442397888F007573B1 /* MessageService.cpp */; };
 		60755B67237D449D006D1A5D /* AppCallBack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60755B65237D449D006D1A5D /* AppCallBack.cpp */; };
 		60755B6B237D5546006D1A5D /* ProtoClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60755B69237D5546006D1A5D /* ProtoClient.cpp */; };
 		60755C11237E446E006D1A5D /* longlink_packer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 60755C0F237E446E006D1A5D /* longlink_packer.cc */; };
 		60755C14237E4483006D1A5D /* shortlink_packer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 60755C12237E4482006D1A5D /* shortlink_packer.cc */; };
 		60755C1B237E46FD006D1A5D /* StnCallBack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60755C19237E46FD006D1A5D /* StnCallBack.cpp */; };
+		60AF4BFC2397BCEC00AFD75D /* ProtoUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60AF4BFA2397BCEC00AFD75D /* ProtoUtils.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -97,6 +99,8 @@
 		604063EC238E74DB00F52FD8 /* PingReqCommand.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PingReqCommand.hpp; sourceTree = "<group>"; };
 		604F2D4123976A0A007573B1 /* PublishMessageTask.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PublishMessageTask.cpp; sourceTree = "<group>"; };
 		604F2D4223976A0A007573B1 /* PublishMessageTask.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PublishMessageTask.hpp; sourceTree = "<group>"; };
+		604F2D442397888F007573B1 /* MessageService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MessageService.cpp; sourceTree = "<group>"; };
+		604F2D452397888F007573B1 /* MessageService.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MessageService.hpp; sourceTree = "<group>"; };
 		60755B53237D43B7006D1A5D /* libproto.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libproto.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		60755B65237D449D006D1A5D /* AppCallBack.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AppCallBack.cpp; sourceTree = "<group>"; };
 		60755B66237D449D006D1A5D /* AppCallBack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCallBack.h; sourceTree = "<group>"; };
@@ -108,6 +112,8 @@
 		60755C13237E4482006D1A5D /* shortlink_packer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shortlink_packer.h; sourceTree = "<group>"; };
 		60755C19237E46FD006D1A5D /* StnCallBack.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StnCallBack.cpp; sourceTree = "<group>"; };
 		60755C1A237E46FD006D1A5D /* StnCallBack.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = StnCallBack.hpp; sourceTree = "<group>"; };
+		60AF4BFA2397BCEC00AFD75D /* ProtoUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProtoUtils.cpp; sourceTree = "<group>"; };
+		60AF4BFB2397BCEC00AFD75D /* ProtoUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProtoUtils.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +189,9 @@
 		60755C0E237E4441006D1A5D /* core */ = {
 			isa = PBXGroup;
 			children = (
+				60D566E02397BB91000A9CA6 /* utils */,
+				60D566DE2397B95F000A9CA6 /* command */,
+				60D566DD2397B80B000A9CA6 /* task */,
 				604063BA238D2F5E00F52FD8 /* pbc */,
 				60755C0F237E446E006D1A5D /* longlink_packer.cc */,
 				60755C10237E446E006D1A5D /* longlink_packer.h */,
@@ -190,26 +199,10 @@
 				60755C13237E4482006D1A5D /* shortlink_packer.h */,
 				6019572E237E7D1F007AA4BB /* ConnectivityLogic.cpp */,
 				6019572F237E7D1F007AA4BB /* ConnectivityLogic.hpp */,
-				60195731237E833C007AA4BB /* AbstractCommand.cpp */,
-				60195732237E833C007AA4BB /* AbstractCommand.hpp */,
-				60195734237EA2F4007AA4BB /* ConnectCommand.cpp */,
-				60195735237EA2F4007AA4BB /* ConnectCommand.hpp */,
-				6019574B238B7B40007AA4BB /* ConnectAckCommand.cpp */,
-				6019574C238B7B40007AA4BB /* ConnectAckCommand.hpp */,
-				60195762238CFE81007AA4BB /* PublishCommand.cpp */,
-				60195763238CFE81007AA4BB /* PublishCommand.hpp */,
-				604063E0238D347000F52FD8 /* PullMessageTask.cpp */,
-				604063E1238D347000F52FD8 /* PullMessageTask.hpp */,
 				604063E3238D353700F52FD8 /* MessageTopic.h */,
 				604063E4238D36DE00F52FD8 /* pbdata.h */,
-				604063E5238E19D500F52FD8 /* ProtoTask.cpp */,
-				604063E6238E19D500F52FD8 /* ProtoTask.hpp */,
-				604063EB238E74DB00F52FD8 /* PingReqCommand.cpp */,
-				604063EC238E74DB00F52FD8 /* PingReqCommand.hpp */,
-				600507F82395FD3B00EEB1C7 /* QueryCommand.cpp */,
-				600507F92395FD3B00EEB1C7 /* QueryCommand.hpp */,
-				604F2D4123976A0A007573B1 /* PublishMessageTask.cpp */,
-				604F2D4223976A0A007573B1 /* PublishMessageTask.hpp */,
+				604F2D442397888F007573B1 /* MessageService.cpp */,
+				604F2D452397888F007573B1 /* MessageService.hpp */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -223,6 +216,47 @@
 				60755C1A237E46FD006D1A5D /* StnCallBack.hpp */,
 			);
 			path = callback;
+			sourceTree = "<group>";
+		};
+		60D566DD2397B80B000A9CA6 /* task */ = {
+			isa = PBXGroup;
+			children = (
+				604063E0238D347000F52FD8 /* PullMessageTask.cpp */,
+				604063E1238D347000F52FD8 /* PullMessageTask.hpp */,
+				604063E5238E19D500F52FD8 /* ProtoTask.cpp */,
+				604063E6238E19D500F52FD8 /* ProtoTask.hpp */,
+				604F2D4123976A0A007573B1 /* PublishMessageTask.cpp */,
+				604F2D4223976A0A007573B1 /* PublishMessageTask.hpp */,
+			);
+			name = task;
+			sourceTree = "<group>";
+		};
+		60D566DE2397B95F000A9CA6 /* command */ = {
+			isa = PBXGroup;
+			children = (
+				60195731237E833C007AA4BB /* AbstractCommand.cpp */,
+				60195732237E833C007AA4BB /* AbstractCommand.hpp */,
+				60195734237EA2F4007AA4BB /* ConnectCommand.cpp */,
+				60195735237EA2F4007AA4BB /* ConnectCommand.hpp */,
+				6019574B238B7B40007AA4BB /* ConnectAckCommand.cpp */,
+				6019574C238B7B40007AA4BB /* ConnectAckCommand.hpp */,
+				60195762238CFE81007AA4BB /* PublishCommand.cpp */,
+				60195763238CFE81007AA4BB /* PublishCommand.hpp */,
+				604063EB238E74DB00F52FD8 /* PingReqCommand.cpp */,
+				604063EC238E74DB00F52FD8 /* PingReqCommand.hpp */,
+				600507F82395FD3B00EEB1C7 /* QueryCommand.cpp */,
+				600507F92395FD3B00EEB1C7 /* QueryCommand.hpp */,
+			);
+			name = command;
+			sourceTree = "<group>";
+		};
+		60D566E02397BB91000A9CA6 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				60AF4BFA2397BCEC00AFD75D /* ProtoUtils.cpp */,
+				60AF4BFB2397BCEC00AFD75D /* ProtoUtils.hpp */,
+			);
+			name = utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,6 +322,7 @@
 				60755B67237D449D006D1A5D /* AppCallBack.cpp in Sources */,
 				60195736237EA2F4007AA4BB /* ConnectCommand.cpp in Sources */,
 				6019574D238B7B40007AA4BB /* ConnectAckCommand.cpp in Sources */,
+				604F2D462397888F007573B1 /* MessageService.cpp in Sources */,
 				60195764238CFE81007AA4BB /* PublishCommand.cpp in Sources */,
 				604063DE238D2F5E00F52FD8 /* pattern.c in Sources */,
 				604063D9238D2F5E00F52FD8 /* varint.c in Sources */,
@@ -306,6 +341,7 @@
 				604063D7238D2F5E00F52FD8 /* stringpool.c in Sources */,
 				604063D4238D2F5E00F52FD8 /* rmessage.c in Sources */,
 				604063D6238D2F5E00F52FD8 /* decode.c in Sources */,
+				60AF4BFC2397BCEC00AFD75D /* ProtoUtils.cpp in Sources */,
 				60195730237E7D1F007AA4BB /* ConnectivityLogic.cpp in Sources */,
 				600507FA2395FD3B00EEB1C7 /* QueryCommand.cpp in Sources */,
 				604063D5238D2F5E00F52FD8 /* register.c in Sources */,

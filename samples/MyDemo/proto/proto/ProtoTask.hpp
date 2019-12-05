@@ -13,6 +13,7 @@
 #include "mars/stn/stn_logic.h"
 #include "pbc/pbc.h"
 #include "AbstractCommand.hpp"
+#include "ProtoUtils.hpp"
 
 namespace mars {
     namespace stn {
@@ -39,6 +40,13 @@ namespace mars {
         enum MessageDirection {
             Receive = 0,
             Send = 1,
+        };
+        
+        enum MessageTag {
+            Persistent = 0x1,
+            Count = 0x2,
+            Mention = 0x4,
+            CmdMsg = 0x8,
         };
         
         struct MessageContent {
@@ -69,12 +77,16 @@ namespace mars {
         private:
             
         protected:
+            AutoBuffer body_;
             std::string topic_;
-            unsigned char* data_;
-            size_t dataLen_;
-            pbc_wmessage *pbMsg_;
             long lastSentTime_;
             long lastRcvTime_;
+            std::string targetID_;
+            unsigned short msgID_;
+            std::string uuid_;
+            long long signature_;
+            int status_;
+            int date_;
             
         protected:
             MessageContent decodeMessageContent(pbc_rmessage *message);
@@ -82,27 +94,25 @@ namespace mars {
         public:
             ProtoTask(TaskID taskID, std::string topic);
             
-            ~ProtoTask() {
-                if (pbMsg_) {
-                    pbc_wmessage_delete(pbMsg_);
-                    data_ = NULL;
-                    dataLen_ = 0;
-                }
-            };
+            ~ProtoTask() {};
             
             virtual void encodeMessage(pbc_env *env){};
-            virtual void decodeMessage(pbc_env *env, unsigned char* data, size_t dataLen){};
+            virtual void decodeMessage(pbc_env *env, AutoBuffer &inBuffer){};
             
             const char* getTopic() {
                 return topic_.c_str();
             }
             
             unsigned char *getData() {
-                return data_;
+                return (unsigned char *)body_.Ptr();
             }
             
             size_t getDataLen() {
-                return dataLen_;
+                return body_.Length();
+            }
+            
+            std::string getMessageUID() {
+                return uuid_;
             }
         };
     }

@@ -15,6 +15,7 @@
 
 #include "StnCallBack.hpp"
 #include "AppCallBack.h"
+#include "MessageService.hpp"
 
 namespace mars {
     namespace stn {
@@ -52,6 +53,7 @@ namespace mars {
             mars::stn::SetCallback(stnCallBack);
             mars::app::SetCallback(mars::app::AppCallBack::Instance());
             mars::baseevent::OnCreate();
+            mars::stn::MessageService::Instance();
             
             _gInitialized = true;
             //TODO DB
@@ -68,10 +70,18 @@ namespace mars {
             mars::stn::ConnectivityLogic::Instance()->setConnectionListener(listener);
         }
         
+        void setReceiveMessageListener(ReceiveMessageListener *listener) {
+            mars::stn::MessageService::Instance()->setReceiveMessageListener(listener);
+        }
+        
         void connectServer(const std::string &userID, const std::string &token, const std::string &host, const uint16_t port) {
             ASSERT(_gInitialized);
             xinfo2(TSF"connectServer: %_, %_", host, port);
             mars::stn::ConnectivityLogic::Instance()->connectServer(userID, token, host, port);
+        }
+        
+        void sendMessage(ConversationType type, const std::string &targetID, const std::string &objName, const std::string &pushContent, const std::string &pushData, const std::string &msgContent, SendMessageCallBack *sendMsgCallBack) {
+            mars::stn::MessageService::Instance()->sendMessage(type, targetID, objName, pushContent, pushData, msgContent, sendMsgCallBack);
         }
     }
 }

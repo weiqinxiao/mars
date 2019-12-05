@@ -10,7 +10,7 @@
 
 namespace mars {
     namespace stn {
-        ConnectAckCommand::ConnectAckCommand(const CmdHeader header):AbstractCommand(header), userID_(NULL), sessionID_(NULL) {
+        ConnectAckCommand::ConnectAckCommand(const CmdHeader header):AbstractCommand(header) {
         }
         
         void ConnectAckCommand::decodeMessage(unsigned int msgLen) {
@@ -22,11 +22,6 @@ namespace mars {
                 sessionID_ = readUTF8();
                 connectedTime_ = readLong();
             }
-        }
-
-        ConnectAckCommand::~ConnectAckCommand() {
-            if (userID_) delete userID_;
-            if (sessionID_) delete sessionID_;
         }
     }
 }

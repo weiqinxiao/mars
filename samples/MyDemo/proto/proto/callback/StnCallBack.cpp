@@ -16,6 +16,8 @@
 #include "ConnectivityLogic.hpp"
 #include "QueryCommand.hpp"
 #include "MessageTopic.h"
+#include "MessageService.hpp"
+#include "PublishMessageTask.hpp"
 
 namespace mars {
     namespace stn {
@@ -57,20 +59,22 @@ namespace mars {
                 char* topic = (char*)(_body.Ptr());
                 std::string str(Topic_notify);
                 if (topic == str) {
-                    PullMessageTask *task = new PullMessageTask(ConnectivityLogic::Instance()->getLastSentTime(), ConnectivityLogic::Instance()->getLastReceiveTime());
-                    mars::stn::StartTask(*task);
+                    MessageService::Instance()->syncMessage();
                     xinfo2(TSF"[wei] start task TaskID_PullMsg");
                 }
             }
         }
         
         bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffer& _outbuffer, AutoBuffer& _extend, int& _error_code, const int _channel_select, const std::string& host) {
+            xinfo2(TSF"[wei] taskid = %_", _taskid);
             if (_taskid == TaskID::TaskID_PullMsg) {
                 PullMessageTask *pullTask = (PullMessageTask *)_user_context;
                 pullTask->encodeMessage(ConnectivityLogic::Instance()->getPBEnv());
                 _outbuffer.Write(pullTask->getData(), pullTask->getDataLen());
                 _extend.Write(pullTask->getTopic());
-                xinfo2(TSF"[wei] taskid = TaskID_PullMsg, topic = %_", pullTask->getTopic());
+            } else if (_taskid == TaskID::TaskID_PublishMsg) {
+                PublishMessageTask *pubTask = (PublishMessageTask*)_user_context;
+                _outbuffer.Write(pubTask->getData(), pubTask->getDataLen());
             }
             return true;
         }
@@ -79,22 +83,40 @@ namespace mars {
             xinfo2(TSF"[wei] _taskid = %_, channel = %_", _taskid, _channel_select);
             if (_taskid == TaskID::TaskID_PullMsg) {
                 PullMessageTask *pullTask = (PullMessageTask *)_user_context;
-                pullTask->decodeMessage(ConnectivityLogic::Instance()->getPBEnv(), (unsigned char*)_inbuffer.Ptr(), _inbuffer.Length());
-                ConnectivityLogic::Instance()->updateSyncTime(pullTask->getLastSentTime(), pullTask->getLastReceiveTime());
-                if (!pullTask->isFinishPull()) {
-                    PullMessageTask *task = new PullMessageTask(ConnectivityLogic::Instance()->getLastSentTime(), ConnectivityLogic::Instance()->getLastReceiveTime());
-                    mars::stn::StartTask(*task);
-                    xinfo2(TSF"[wei] start PullMessageTask");
+                AutoBuffer body;
+                body.AllocWrite(_inbuffer.Length());
+                body.Write(_inbuffer);
+                body.Seek(0, AutoBuffer::TSeek::ESeekStart);
+                pullTask->decodeMessage(ConnectivityLogic::Instance()->getPBEnv(), body);
+                MessageService::Instance()->updateSyncTime(pullTask->getLastSentTime(), pullTask->getLastReceiveTime());
+                ReceiveMessageListener *rcvMsgListener = MessageService::Instance()->getReceiveMessageListener();
+                if (rcvMsgListener && pullTask->getPulledMessages().size() > 0) {
+                    rcvMsgListener->onReceivedMessages(pullTask->getPulledMessages());
                 }
+                if (!pullTask->isFinishPull()) {
+                    MessageService::Instance()->syncMessage();
+                }
+            } else if (_taskid == TaskID_PublishMsg) {
+                PublishMessageTask *pubTask = (PublishMessageTask*)_user_context;
+                AutoBuffer body;
+                body.AllocWrite(_inbuffer.Length());
+                body.Write(_inbuffer);
+                body.Seek(0, AutoBuffer::TSeek::ESeekStart);
+                pubTask->decodeMessage(ConnectivityLogic::Instance()->getPBEnv(), body);
+                //TODO 时间？
             }
             return 0;
         }
         
         int StnCallBack::OnTaskEnd(uint32_t _taskid, void* const _user_context, int _error_type, int _error_code) {
+            xinfo2(TSF"[wei] delete task: taskid = %_", _taskid);
             if (_user_context) {
-                if(_taskid == TaskID::TaskID_PullMsg) {
-                    xinfo2(TSF"[wei] delete task: TaskID_PullMsg");
-                    PullMessageTask *task = (PullMessageTask*)_user_context;
+                if (_taskid == TaskID_PublishMsg) {
+                    PublishMessageTask *task = (PublishMessageTask*)_user_context;
+                    task->callback()->onSuccess(task->getMessageUID());
+                    delete task;
+                } else {
+                    ProtoTask *task = (ProtoTask*)_user_context;
                     delete task;
                 }
             }
@@ -110,7 +132,7 @@ namespace mars {
         // 需要组件组包，发送一个req过去，网络成功会有resp，但没有taskend，处理事务时要注意网络时序
         // 不需组件组包，使用长链做一个sync，不用重试
         int  StnCallBack::GetLonglinkIdentifyCheckBuffer(AutoBuffer& _identify_buffer, AutoBuffer& _buffer_hash, int32_t& _cmdid) {
-            xinfo2(TSF"[wei] GetLonglinkIdentifyCheckBuffer: cmdid = %_", _cmdid);
+            xinfo2(TSF"[wei] cmdid = %_", _cmdid);
             _cmdid = CmdID_Connect;
             return IdentifyMode::kCheckNow;
         }
@@ -121,9 +143,7 @@ namespace mars {
             bool accpted = ConnectivityLogic::Instance()->onConnectAck(header, _response_buffer);
             xinfo2(TSF"[wei] accpted = %_", accpted);
             if (accpted) {
-                PullMessageTask *task = new PullMessageTask(ConnectivityLogic::Instance()->getLastSentTime(), ConnectivityLogic::Instance()->getLastReceiveTime());
-                mars::stn::StartTask(*task);
-                xinfo2(TSF"[wei] start task TaskID_PullMsg");
+                MessageService::Instance()->syncMessage();
             } else {
                 
             }

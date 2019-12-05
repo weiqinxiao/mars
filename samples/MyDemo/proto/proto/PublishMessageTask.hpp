@@ -11,15 +11,34 @@
 
 #include <stdio.h>
 #include "ProtoTask.hpp"
+#include "ProtoListener.h"
 
 namespace mars {
     namespace stn {
+        
         class PublishMessageTask : public ProtoTask {
+        private:
+            SendMessageCallBack *_sendMsgCallBack;
+            
+        private:
+            long long _sentTime;
             
         public:
-            PublishMessageTask(std::string topic);
-            void encodeMessage(pbc_env *env){};
-            void decodeMessage(pbc_env *env, unsigned char* data, size_t dataLen);
+            PublishMessageTask(ConversationType type, const std::string &targetID);
+            void encodeMessage(pbc_env *env, MessageTag tag, const std::string &objName, const std::string &pushContent, const std::string &pushData, const std::string &content);
+            void decodeMessage(pbc_env *env, AutoBuffer &inBuffer);
+            
+            void setCallBack(SendMessageCallBack *callback) {
+                _sendMsgCallBack = callback;
+            }
+            
+            SendMessageCallBack *callback() {
+                return _sendMsgCallBack;
+            }
+            
+            long long getMessageSentTime() {
+                return _sentTime;
+            }
         };
     }
 }

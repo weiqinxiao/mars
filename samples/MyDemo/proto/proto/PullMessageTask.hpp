@@ -22,11 +22,10 @@ namespace mars {
             bool finishPull_;
             
         public:
-            PullMessageTask(long lastSentTime, long lastRcvTime);
-            ~PullMessageTask() {
-            }
+            PullMessageTask(long lastSentTime, long lastRcvTime, unsigned short msgID);
+            ~PullMessageTask() {}
             void encodeMessage(pbc_env *env);
-            void decodeMessage(pbc_env *env, unsigned char* data, size_t dataLen);
+            void decodeMessage(pbc_env *env, AutoBuffer &inBuffer);
             
             long getLastSentTime() {
                 return lastSentTime_;
@@ -38,6 +37,10 @@ namespace mars {
             
             bool isFinishPull() {
                 return finishPull_;
+            }
+            
+            std::list<MessageContent> getPulledMessages() {
+                return msgList;
             }
         };
     }

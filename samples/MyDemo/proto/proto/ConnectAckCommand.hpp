@@ -32,16 +32,14 @@ namespace mars {
         class ConnectAckCommand : public AbstractCommand {
         private:
             ConnectionStatus state_;
-            const char* userID_;
-            const char* sessionID_;
+            std::string userID_;
+            std::string sessionID_;
             long connectedTime_;
             
             
         public:
             ConnectAckCommand(const CmdHeader header);
-            ~ConnectAckCommand();
             
-            size_t encodeMessage() {return 0;};
             void decodeMessage(unsigned int msgLen);
             
             ConnectionStatus getStatus() {
@@ -49,7 +47,7 @@ namespace mars {
             }
             
             const char* getUserID() {
-                return userID_;
+                return userID_.c_str();
             }
         };
     }

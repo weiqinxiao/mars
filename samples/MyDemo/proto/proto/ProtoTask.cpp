@@ -11,7 +11,7 @@
 
 namespace mars {
     namespace stn {
-        ProtoTask::ProtoTask(TaskID taskID, std::string topic) : Task(taskID), topic_(topic) {
+        ProtoTask::ProtoTask(TaskID taskID, std::string topic) : Task(taskID), topic_(topic), signature_(0xff) {
             user_context = this;
             channel_select = Task::kChannelLong;
             limit_flow = false;
