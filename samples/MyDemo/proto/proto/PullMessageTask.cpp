@@ -13,8 +13,8 @@
 
 namespace mars {
     namespace stn {
-        PullMessageTask::PullMessageTask(long lastSentTime, long lastRcvTime, unsigned short msgID):ProtoTask(TaskID::TaskID_PullMsg, Topic_pullMsg) {
-            cmdid = CmdID_PullMsg;
+        PullMessageTask::PullMessageTask(long lastSentTime, long lastRcvTime, unsigned short msgID):ProtoTask(TaskID::TaskID_Pull, Topic_pullMsg) {
+            cmdid = CmdID_Pull;
             lastRcvTime_ = lastRcvTime;
             lastSentTime_ = lastSentTime;
             msgID_ = msgID;
@@ -65,6 +65,18 @@ namespace mars {
                 msgList.push_back(content);
             }
             pbc_rmessage_delete(msg);
+        }
+        
+        PullConfirmTask::PullConfirmTask(unsigned short msgID) : ProtoTask(TaskID_PullConfirm, "") {
+            msgID_ = msgID;
+            cmdid = CmdID_PullConfirm;
+        }
+        
+        void PullConfirmTask::encodeMessage(pbc_env *env) {
+            unsigned short lsb = msgID_ & 0xFF;
+            unsigned short msb = (msgID_ & 0xFF00) >> 8;
+            body_.Write(msb);
+            body_.Write(lsb);
         }
     }
 }

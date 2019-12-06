@@ -20,9 +20,10 @@ namespace mars {
         
         typedef enum _CmdID {
             CmdID_Connect = 10,
-            CmdID_PullMsg = 11,
-            CmdID_Publish = 12,
-            CmdID_Notify = 13,
+            CmdID_Pull = 11,
+            CmdID_PullConfirm = 12,
+            CmdID_Publish = 13,
+            CmdID_Notify = 14,
         } CmdID;
 
 

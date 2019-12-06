@@ -22,6 +22,7 @@ namespace mars {
             
         protected:
             size_t encodeMessage();
+            QueryCommand(MqttCmd cmd, const unsigned char *data, const size_t dataLen);
  
         public:
             QueryCommand(const unsigned char *data, const size_t dataLen);
@@ -32,6 +33,12 @@ namespace mars {
 
         public:
             QueryAckCommand(CmdHeader header);
+        };
+        
+        class QueryConfirmCommand : public QueryCommand {
+
+        public:
+            QueryConfirmCommand(const unsigned char *data, const size_t dataLen);
         };
     }
 }

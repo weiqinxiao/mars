@@ -29,19 +29,25 @@ namespace mars {
         }
         
         void MessageService::sendMessage(ConversationType type, const std::string &targetID, const std::string &objName, const std::string &pushContent, const std::string &pushData, const std::string &msgContent, SendMessageCallBack *sendMsgCallBack) {
+            xinfo2(TSF"[wei] start publish task: %_, %_, obj = %_", type, targetID, objName);
             PublishMessageTask* task = new PublishMessageTask(type, targetID);
             task->setCallBack(sendMsgCallBack);
             task->encodeMessage(ConnectivityLogic::Instance()->getPBEnv(), MessageTag::Persistent, objName, pushContent, pushData, msgContent);
             mars::stn::StartTask(*task);
-            xinfo2(TSF"start publish task: %_, %_, obj = %_", type, targetID, objName);
         }
         
-        void MessageService::syncMessage() {
-            xinfo2(TSF"start pull message task");
+        void MessageService::pullMessage() {
+            xinfo2(TSF"[wei] start pull message task");
             PullMessageTask *task = new PullMessageTask(_lastSentTime, _lastReceiveTime, _pullMsgID);
             mars::stn::StartTask(*task);
             _pullMsgID++;
             if (_pullMsgID == 65535) _pullMsgID = 1;
+        }
+        
+        void MessageService::pullConfirmMessage(unsigned short msgID) {
+            xinfo2(TSF"[wei] start pull confirm msgID = %_", msgID);
+            PullConfirmTask *task = new PullConfirmTask(msgID);
+            mars::stn::StartTask(*task);
         }
         
         

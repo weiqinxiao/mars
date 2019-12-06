@@ -19,6 +19,11 @@ namespace mars {
             need_authed = false;
         }
         
+        ProtoTask::ProtoTask(TaskID taskID, unsigned short msgID) {
+            ProtoTask(taskID, "");
+            msgID_ = msgID;
+        }
+        
         MessageContent ProtoTask::decodeMessageContent(pbc_rmessage *message) {
             MessageContent msgContent;
             msgContent.senderID = pbc_rmessage_string(message, "fromUserId", 0, NULL);

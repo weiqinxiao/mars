@@ -10,7 +10,12 @@
 
 namespace mars {
     namespace stn {
-        QueryCommand::QueryCommand(const unsigned char *data, const size_t dataLen) : AbstractCommand(QUERY, CmdQos::QOS_AT_MOST_ONCE, CmdRetain::RETAIN_YES), _data(data), _dataLen(dataLen) {
+        //set qos 1, server will retry send query ack command if not receive query ack confirm command.
+        QueryCommand::QueryCommand(const unsigned char *data, const size_t dataLen) : AbstractCommand(QUERY, QOS_AT_LEAST_ONCE), _data(data), _dataLen(dataLen) {
+            
+        }
+        
+        QueryCommand::QueryCommand(MqttCmd cmd, const unsigned char *data, const size_t dataLen) : AbstractCommand(cmd), _data(data), _dataLen(dataLen) {
             
         }
         
@@ -21,6 +26,10 @@ namespace mars {
 
         
         QueryAckCommand::QueryAckCommand(CmdHeader header) : AbstractCommand(header) {
+            
+        }
+        
+        QueryConfirmCommand::QueryConfirmCommand(const unsigned char *data, const size_t dataLen) : QueryCommand(QUERYCON, data, dataLen) {
             
         }
     }

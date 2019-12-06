@@ -59,7 +59,7 @@ namespace mars {
                 char* topic = (char*)(_body.Ptr());
                 std::string str(Topic_notify);
                 if (topic == str) {
-                    MessageService::Instance()->syncMessage();
+                    MessageService::Instance()->pullMessage();
                     xinfo2(TSF"[wei] start task TaskID_PullMsg");
                 }
             }
@@ -67,21 +67,24 @@ namespace mars {
         
         bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffer& _outbuffer, AutoBuffer& _extend, int& _error_code, const int _channel_select, const std::string& host) {
             xinfo2(TSF"[wei] taskid = %_", _taskid);
-            if (_taskid == TaskID::TaskID_PullMsg) {
+            if (_taskid == TaskID::TaskID_Pull) {
                 PullMessageTask *pullTask = (PullMessageTask *)_user_context;
                 pullTask->encodeMessage(ConnectivityLogic::Instance()->getPBEnv());
                 _outbuffer.Write(pullTask->getData(), pullTask->getDataLen());
-                _extend.Write(pullTask->getTopic());
-            } else if (_taskid == TaskID::TaskID_PublishMsg) {
+            } else if (_taskid == TaskID::TaskID_Publish) {
                 PublishMessageTask *pubTask = (PublishMessageTask*)_user_context;
                 _outbuffer.Write(pubTask->getData(), pubTask->getDataLen());
+            } else if (_taskid == TaskID_PullConfirm) {
+                PullConfirmTask *task = (PullConfirmTask*)_user_context;
+                task->encodeMessage(ConnectivityLogic::Instance()->getPBEnv());
+                _outbuffer.Write(task->getData(), task->getDataLen());
             }
             return true;
         }
         
         int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const AutoBuffer& _inbuffer, const AutoBuffer& _extend, int& _error_code, const int _channel_select) {
             xinfo2(TSF"[wei] _taskid = %_, channel = %_", _taskid, _channel_select);
-            if (_taskid == TaskID::TaskID_PullMsg) {
+            if (_taskid == TaskID::TaskID_Pull) {
                 PullMessageTask *pullTask = (PullMessageTask *)_user_context;
                 AutoBuffer body;
                 body.AllocWrite(_inbuffer.Length());
@@ -93,10 +96,7 @@ namespace mars {
                 if (rcvMsgListener && pullTask->getPulledMessages().size() > 0) {
                     rcvMsgListener->onReceivedMessages(pullTask->getPulledMessages());
                 }
-                if (!pullTask->isFinishPull()) {
-                    MessageService::Instance()->syncMessage();
-                }
-            } else if (_taskid == TaskID_PublishMsg) {
+            } else if (_taskid == TaskID_Publish) {
                 PublishMessageTask *pubTask = (PublishMessageTask*)_user_context;
                 AutoBuffer body;
                 body.AllocWrite(_inbuffer.Length());
@@ -111,12 +111,20 @@ namespace mars {
         int StnCallBack::OnTaskEnd(uint32_t _taskid, void* const _user_context, int _error_type, int _error_code) {
             xinfo2(TSF"[wei] delete task: taskid = %_", _taskid);
             if (_user_context) {
-                if (_taskid == TaskID_PublishMsg) {
+                if (_taskid == TaskID_Publish) {
                     PublishMessageTask *task = (PublishMessageTask*)_user_context;
                     task->callback()->onSuccess(task->getMessageUID());
                     delete task;
-                } else {
-                    ProtoTask *task = (ProtoTask*)_user_context;
+                } else if (_taskid == TaskID_Pull) {
+                    PullMessageTask *pullTask = (PullMessageTask*)_user_context;
+                    //TODO 是否发送 confirm，如何处理 task 逻辑
+//                    MessageService::Instance()->pullConfirmMessage(pullTask->getMessageID());
+                    if (!pullTask->isFinishPull()) {
+                        MessageService::Instance()->pullMessage();
+                    }
+                    delete pullTask;
+                } else if (_taskid == TaskID_PullConfirm) {
+                    PullConfirmTask *task = (PullConfirmTask*)_user_context;
                     delete task;
                 }
             }
@@ -143,7 +151,7 @@ namespace mars {
             bool accpted = ConnectivityLogic::Instance()->onConnectAck(header, _response_buffer);
             xinfo2(TSF"[wei] accpted = %_", accpted);
             if (accpted) {
-                MessageService::Instance()->syncMessage();
+                MessageService::Instance()->pullMessage();
             } else {
                 
             }

@@ -11,7 +11,7 @@
 
 namespace mars {
     namespace stn {
-        PublishMessageTask::PublishMessageTask(ConversationType type, const std::string &targetID) : ProtoTask(TaskID::TaskID_PublishMsg, "") {
+        PublishMessageTask::PublishMessageTask(ConversationType type, const std::string &targetID) : ProtoTask(TaskID::TaskID_Publish, "") {
             switch (type) {
                 case PRIVATE:
                 {

@@ -43,6 +43,12 @@ namespace mars {
                 return msgList;
             }
         };
+        
+        class PullConfirmTask : public ProtoTask {
+        public:
+            PullConfirmTask(unsigned short msgID);
+            void encodeMessage(pbc_env *env);
+        };
     }
 }
 

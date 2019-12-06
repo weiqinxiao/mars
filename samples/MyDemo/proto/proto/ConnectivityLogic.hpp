@@ -91,7 +91,8 @@ namespace mars {
             
             void sendConnect(AutoBuffer &pack);
             void sendPing(AutoBuffer &pack);
-            void pullMessage(const char* topic, const unsigned char* data, const size_t dataLen, AutoBuffer& pack);
+            void pullMessage(const unsigned char* data, const size_t dataLen, AutoBuffer& pack);
+            void pullConfirmMessage(const unsigned char* data, const size_t dataLen, AutoBuffer& pack);
             void publishMessage(const unsigned char* data, const size_t dataLen, AutoBuffer& pack);
             
             bool onConnectAck(const CmdHeader header, const AutoBuffer &packed);

@@ -33,8 +33,9 @@ namespace mars {
         };
         
         enum TaskID {
-            TaskID_PullMsg = 0x10,
-            TaskID_PublishMsg = 0x11,
+            TaskID_Pull = 0x10,
+            TaskID_PullConfirm = 0x11,
+            TaskID_Publish = 0x12,
         };
         
         enum MessageDirection {
@@ -94,6 +95,8 @@ namespace mars {
         public:
             ProtoTask(TaskID taskID, std::string topic);
             
+            ProtoTask(TaskID taskID, unsigned short msgID);
+            
             ~ProtoTask() {};
             
             virtual void encodeMessage(pbc_env *env){};
@@ -113,6 +116,10 @@ namespace mars {
             
             std::string getMessageUID() {
                 return uuid_;
+            }
+            
+            unsigned short getMessageID() {
+                return msgID_;
             }
         };
     }

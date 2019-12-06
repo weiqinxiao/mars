@@ -65,28 +65,31 @@ namespace mars {
         
         void (*longlink_pack)(uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker)
         = [](uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker) {
+            xinfo2(TSF"[wei] pack : seq = %_, cmdid = %_", _seq, _cmdid);
             switch (_cmdid) {
                 case CmdID_Connect:
                 {
-                    xinfo2(TSF"[wei] pack cmdid = CmdID_Connect, seq = %_", _seq);
                     ConnectivityLogic::Instance()->sendConnect(_packed);
                     break;
                 }
                 case NOOP_CMDID:
                 {
-                    xinfo2(TSF"[wei] pack cmdid = NOOP_CMDID, seq = %_", _seq);
                     ConnectivityLogic::Instance()->sendPing(_packed);
                     break;
                 }
-                case CmdID_PullMsg:
+                case CmdID_Pull:
                 {
-                    xinfo2(TSF"[wei] pack cmdid = CmdID_PullMsg, seq = %_", _seq);
-                    ConnectivityLogic::Instance()->pullMessage((const char*)(_extension.Ptr()), (unsigned char*)_body.Ptr(), _body.Length(), _packed);
+                    ConnectivityLogic::Instance()->pullMessage((unsigned char*)_body.Ptr(), _body.Length(), _packed);
                     break;
                 }
                 case CmdID_Publish:
                 {
                     ConnectivityLogic::Instance()->publishMessage((unsigned char*)_body.Ptr(), _body.Length(), _packed);
+                    break;
+                }
+                case CmdID_PullConfirm:
+                {
+                    ConnectivityLogic::Instance()->pullConfirmMessage((unsigned char*)_body.Ptr(), _body.Length(), _packed);
                     break;
                 }
             }
@@ -132,9 +135,9 @@ namespace mars {
                 }
                 case QUERYACK:
                 {
-                    _cmdid = CmdID_PullMsg;
+                    _cmdid = CmdID_Pull;
                     _package_len = len;
-                    _seq = TaskID::TaskID_PullMsg;
+                    _seq = TaskID::TaskID_Pull;
                     QueryAckCommand qryAckCmd(header);
                     qryAckCmd.decode(_packed);
                     _body.Write(qryAckCmd.getPayload(), qryAckCmd.getPayloadLength());
@@ -147,7 +150,7 @@ namespace mars {
                     PublishAckCommand pubAckCmd(header);
                     pubAckCmd.decode(_packed);
                     _body.Write(pubAckCmd.getPayload(), pubAckCmd.getPayloadLength());
-                    _seq = TaskID::TaskID_PublishMsg;
+                    _seq = TaskID::TaskID_Publish;
                     break;
                 }
                 default:

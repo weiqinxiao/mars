@@ -36,7 +36,8 @@ namespace mars {
                 return _rcvMsgListener;
             };
             
-            void syncMessage();
+            void pullMessage();
+            void pullConfirmMessage(unsigned short msgID);
             void updateSyncTime(long sentTime, long receiveTime);
 
             void sendMessage(ConversationType type, const std::string &targetID, const std::string &objName, const std::string &pushContent, const std::string &pushData, const std::string &msgContent, SendMessageCallBack *sendMsgCallBack);

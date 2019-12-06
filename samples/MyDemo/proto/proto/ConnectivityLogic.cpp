@@ -85,9 +85,15 @@ namespace mars {
             cmd.encode(pack);
         }
 
-        void ConnectivityLogic::pullMessage(const char* topic, const unsigned char* data, const size_t dataLen, AutoBuffer& pack) {
-            xinfo2(TSF"[wei] send pull command, topic = %_", topic);
+        void ConnectivityLogic::pullMessage(const unsigned char* data, const size_t dataLen, AutoBuffer& pack) {
+            xinfo2(TSF"[wei] send pull command");
             QueryCommand cmd(data, dataLen);
+            cmd.encode(pack);
+        }
+        
+        void ConnectivityLogic::pullConfirmMessage(const unsigned char* data, const size_t dataLen, AutoBuffer& pack) {
+            xinfo2(TSF"[wei] send pull confirm command");
+            QueryConfirmCommand cmd(data, dataLen);
             cmd.encode(pack);
         }
         
